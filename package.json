@@ -1,6 +1,6 @@
 {
   "name": "angular-demoapp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -44,6 +44,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "angular-in-memory-web-api": "^0.3.2"
   }
 }
