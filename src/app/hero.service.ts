@@ -3,17 +3,19 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import { Hero } from './hero';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class HeroService {
 
   // URL to web api - can be remote or local in memory 
-  private heroesUrl = 'api/heroes';
+  private heroesUrl = environment.api_endpoint;
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http) { }
 
   getHeroes(): Promise<Hero[]> {
+    console.error('###########', this.heroesUrl);
     return this.http.get(this.heroesUrl)
       .toPromise()
       .then(response => response.json().data as Hero[])

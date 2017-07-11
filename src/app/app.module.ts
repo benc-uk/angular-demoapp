@@ -15,6 +15,27 @@ import { HeroService } from './hero.service';
 import { DashboardComponent } from './dashboard.component';
 import { AppRoutingModule }     from './app-routing.module';
 import { HeroSearchComponent }     from './hero-search.component';
+import { environment } from '../environments/environment';
+
+var app_imports = [];
+
+// This is terrible but alternatives didn't look much better
+if(!environment.production) {
+  app_imports = [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
+  ];
+} else {
+  app_imports = [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpModule,
+  ]
+}
 
 @NgModule({
   declarations: [
@@ -24,13 +45,7 @@ import { HeroSearchComponent }     from './hero-search.component';
     DashboardComponent,
     HeroSearchComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
-  ],
+  imports: app_imports,
   providers: [ HeroService ],
   bootstrap: [ AppComponent ]
 })
