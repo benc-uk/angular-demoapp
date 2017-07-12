@@ -15,7 +15,6 @@ export class HeroService {
   constructor(private http: Http) { }
 
   getHeroes(): Promise<Hero[]> {
-    console.error('###########', this.heroesUrl);
     return this.http.get(this.heroesUrl)
       .toPromise()
       .then(response => response.json().data as Hero[])
