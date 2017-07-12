@@ -1,9 +1,26 @@
-<h3>Top Heroes</h3>
-<div class="grid grid-pad">
-  <a *ngFor="let hero of heroes"  [routerLink]="['/detail', hero.id]"  class="col-1-4">
-    <div class="module hero">
-      <h4>{{hero.name}}</h4>
-    </div>
-  </a>
-</div>
-<hero-search></hero-search>
+<h1 class="mat-h1 cen">
+
+  Top Goats</h1>
+
+<md-grid-list cols='3' rowHeight='500px' gutterSize='10px'>
+
+  <md-grid-tile *ngFor="let hero of heroes">
+    <md-card class="goat-card mat-elevation-z6">
+      <md-card-header>
+        <div md-card-avatar></div>
+        <md-card-title>{{hero.name}}</md-card-title>
+        <md-card-subtitle>Goat</md-card-subtitle>
+      </md-card-header>
+      <img md-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+      <md-card-content>
+        <p>
+          Hello
+        </p>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button>LIKE</button>
+        <button md-button>SHARE</button>
+      </md-card-actions>
+    </md-card>
+  </md-grid-tile>
+</md-grid-list>

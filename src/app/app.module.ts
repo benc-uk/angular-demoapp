@@ -8,6 +8,10 @@ import { HttpModule }    from '@angular/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
+// Material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
@@ -26,7 +30,8 @@ if(!environment.production) {
     FormsModule,
     AppRoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    MdCardModule, MdButtonModule, BrowserAnimationsModule, MdGridListModule, MdToolbarModule, MdSidenavModule, MdIconModule, MdMenuModule
   ];
 } else {
   app_imports = [
@@ -34,6 +39,7 @@ if(!environment.production) {
     FormsModule,
     AppRoutingModule,
     HttpModule,
+    MdCardModule, MdButtonModule, BrowserAnimationsModule, MdGridListModule, MdToolbarModule, MdSidenavModule, MdIconModule, MdMenuModule
   ]
 }
 
