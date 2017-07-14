@@ -1,10 +1,16 @@
 .navicon {
   height: 40px;
+  width: 40px;
 }
+
 .navicon-sm {
   height: 20px;
 }
 
 .fill-space {
   flex: 1 1 auto;
+}
+
+.pad {
+  width: 2em;
 }

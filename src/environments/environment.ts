@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api_endpoint: 'api/heroes'
+  api_endpoint: 'api/goats'
 };

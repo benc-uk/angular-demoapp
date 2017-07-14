@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import { Goat } from './goat';
+import { GoatService } from './goat.service';
 
 @Component({
   selector: 'my-dashboard',
@@ -11,12 +11,19 @@ import { HeroService } from './hero.service';
 
 export class DashboardComponent implements OnInit {
 
-  heroes: Hero[] = [];
+  goats: Goat[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(private service: GoatService) { }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1, 7));
+    this.service.list()
+      .then(g => this.goats = g.sort( function(a, b){return b.likes - a.likes} ))
+      .then(g => this.goats = g.splice(0,6));
   }
+  
+  likeGoat(goat: Goat, event): void {
+    goat.likes++;
+    event.stopPropagation();
+  }
+  
 }

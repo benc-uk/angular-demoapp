@@ -8,51 +8,49 @@ import { HttpModule }    from '@angular/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
-// Material
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule } from '@angular/material';
+// Flexlayout
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
-import { HeroService } from './hero.service';
+import { GoatsComponent } from './goats.component';
+import { DetailComponent } from './detail.component';
+import { GoatService } from './goat.service';
 import { DashboardComponent } from './dashboard.component';
-import { AppRoutingModule }     from './app-routing.module';
-import { HeroSearchComponent }     from './hero-search.component';
+import { RoutingModule }     from './routing.module';
+import { SearchComponent }     from './search.component';
 import { environment } from '../environments/environment';
-
-var app_imports = [];
+// Material
+import { MaterialModule } from './material.module';
 
 // This is terrible but alternatives didn't look much better
+var app_imports = [];
 if(!environment.production) {
   app_imports = [
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
+    RoutingModule,
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
-    MdCardModule, MdButtonModule, BrowserAnimationsModule, MdGridListModule, MdToolbarModule, MdSidenavModule, MdIconModule, MdMenuModule
-  ];
+    MaterialModule ];
 } else {
   app_imports = [
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
+    RoutingModule,
     HttpModule,
-    MdCardModule, MdButtonModule, BrowserAnimationsModule, MdGridListModule, MdToolbarModule, MdSidenavModule, MdIconModule, MdMenuModule
-  ]
+    MaterialModule ]
 }
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeroesComponent,
-    HeroDetailComponent,
+    GoatsComponent,
+    DetailComponent,
     DashboardComponent,
-    HeroSearchComponent
+    SearchComponent
   ],
   imports: app_imports,
-  providers: [ HeroService ],
+  providers: [ GoatService ],
   bootstrap: [ AppComponent ]
 })
 

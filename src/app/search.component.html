@@ -1,9 +1,9 @@
 <div id="search-component">
   <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
   <div>
-    <div *ngFor="let hero of heroes | async"
-         (click)="gotoDetail(hero)" class="search-result" >
-      {{hero.name}}
+    <div *ngFor="let goat of goats | async"
+         (click)="gotoDetail(goat)" class="search-result" >
+      {{goat.name}}
     </div>
   </div>
 </div>

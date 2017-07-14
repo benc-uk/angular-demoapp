@@ -1,12 +1,21 @@
 <md-sidenav-container fullscreen>
 
   <md-toolbar color="primary" class="mat-elevation-z5">
-    <img src='../assets/goat-icon.svg' class='navicon'>
-    <button routerLink="/dashboard" md-button mdTooltip="Tooltip!"><i class="material-icons">favorite</i> DASHBOARD</button>
-    <button routerLink="/heroes" md-button> <i class="material-icons">thumb_up</i> ALL GOATS</button>
+    <div class='navicon'><img src='../assets/angular.svg'></div>
+    <span class="pad"></span>
+    <span>
+      <button routerLink="/dashboard" md-button mdTooltip="Tooltip!"><i class="material-icons">favorite</i>&nbsp; DASHBOARD</button>
+      <button routerLink="/goats" md-button> <i class="material-icons">pageview</i>&nbsp; ALL GOATS</button>
+    </span>
+
     <span class="fill-space"></span>
-    <hero-search></hero-search>
-    <a src='#' md-button> <img class='navicon-sm' src='../assets/github.svg'> GITHUB</a>
+
+    <i class="material-icons">search</i>&nbsp;<span><goat-search></goat-search></span>
+
+    <span class="pad"></span>
+    <span>
+      <a href='https://github.com/benc-uk/angular-demoapp' md-button> <img class='navicon-sm' src='../assets/github.svg'>&nbsp; GITHUB</a>
+    </span>
   </md-toolbar>
 
   <div class='content'>

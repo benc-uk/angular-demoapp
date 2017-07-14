@@ -2,13 +2,13 @@
   background-color: #CFD8DC !important;
   color: white;
 }
-.heroes {
+.goats {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 25em;
 }
-.heroes li {
+.goats li {
   cursor: pointer;
   position: relative;
   left: 0;
@@ -18,20 +18,20 @@
   height: 1.6em;
   border-radius: 4px;
 }
-.heroes li:hover {
+.goats li:hover {
   color: #607D8B;
   background-color: #DDD;
   left: .1em;
 }
-.heroes li.selected:hover {
+.goats li.selected:hover {
   background-color: #BBD8DC !important;
   color: white;
 }
-.heroes .text {
+.goats .text {
   position: relative;
   top: -3px;
 }
-.heroes .badge {
+.goats .badge {
   display: inline-block;
   font-size: small;
   color: white;

@@ -1,26 +1,17 @@
-<h1 class="mat-h1 cen">
+<md-grid-list cols='3' gutterSize='2px' rowHeight='450px'>
+  <md-grid-tile *ngFor="let goat of goats">
 
-  Top Goats</h1>
-
-<md-grid-list cols='3' rowHeight='500px' gutterSize='10px'>
-
-  <md-grid-tile *ngFor="let hero of heroes">
-    <md-card class="goat-card mat-elevation-z6">
+    <md-card class="goat-card mat-elevation-z6" [class.mat-elevation-z2]="hover" [routerLink]="['/detail', goat.id]">
       <md-card-header>
-        <div md-card-avatar></div>
-        <md-card-title>{{hero.name}}</md-card-title>
-        <md-card-subtitle>Goat</md-card-subtitle>
+        <md-card-title>{{goat.name}}</md-card-title>
+        <span class="fill-space"></span>
+        <button md-button (click)="likeGoat(goat, $event)"><i class="material-icons">favorite</i> {{goat.likes}}</button>
       </md-card-header>
-      <img md-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
-      <md-card-content>
-        <p>
-          Hello
-        </p>
-      </md-card-content>
-      <md-card-actions>
-        <button md-button>LIKE</button>
-        <button md-button>SHARE</button>
+      <img md-card-image src='assets/{{goat.photo}}'>
+
+      <md-card-actions style='text-align:center'>
       </md-card-actions>
     </md-card>
+
   </md-grid-tile>
 </md-grid-list>
