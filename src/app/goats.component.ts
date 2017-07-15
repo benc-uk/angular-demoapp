@@ -32,7 +32,7 @@ export class GoatsComponent implements OnInit {
   }
 
   gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedGoat.id]);
+    this.router.navigate(['/detail', this.selectedGoat.RowKey]);
   }
 
   add(name: string): void {
@@ -47,7 +47,7 @@ export class GoatsComponent implements OnInit {
 
   delete(goat: Goat): void {
     this.service
-      .delete(goat.id)
+      .delete(goat.RowKey)
       .then(() => {
         this.goats = this.goats.filter(g => g !== goat);
         if (this.selectedGoat === goat) { this.selectedGoat = null; }

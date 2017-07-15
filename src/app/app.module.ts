@@ -30,15 +30,15 @@ if(!environment.production) {
     FormsModule,
     RoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
-    MaterialModule ];
+    //InMemoryWebApiModule.forRoot(InMemoryDataService),
+    MaterialModule, FlexLayoutModule ];
 } else {
   app_imports = [
     BrowserModule,
     FormsModule,
     RoutingModule,
     HttpModule,
-    MaterialModule ]
+    MaterialModule, FlexLayoutModule ]
 }
 
 @NgModule({

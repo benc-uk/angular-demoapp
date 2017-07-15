@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit {
   }
 
   gotoDetail(goat: Goat): void {
-    let link = ['/detail', goat.id];
+    let link = ['/detail', goat.RowKey];
     this.router.navigate(link);
   }
 }

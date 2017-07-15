@@ -10,20 +10,19 @@
   <button (click)="save()">Save</button>
 </div>-->
 
-<md-card class="detail-card">
-  <md-card-header>
-    <div md-card-avatar class="example-header-image"></div>
-    <md-card-title>{{goat.name}}</md-card-title>
-    <md-card-subtitle>Goat</md-card-subtitle>
-  </md-card-header>
-  <img md-card-image src='assets/{{goat.photo}}'>
-  <md-card-content>
-      <div><label>id: </label>{{goat.id}}</div>
-      <div><label>Likes: </label>{{goat.likes}}</div>
-      <div><label>Photo: </label>{{goat.photo}}</div>
-  </md-card-content>
-  <md-card-actions>
-    <button md-button><i class="material-icons">mode_edit</i>&nbsp; EDIT</button>
-    <button md-button><i class="material-icons">delete_forever</i>&nbsp; DELETE</button>
-  </md-card-actions>
-</md-card>
+<div *ngIf="goat">
+  <md-card class="detail-card">
+    <md-card-header>
+      <md-card-title>{{goat.name}}</md-card-title>
+    </md-card-header>
+    <img md-card-image src='assets/{{goat.photo}}'>
+    <md-card-content>
+        <div>{{goat.likes}} likes</div>
+        <p>{{goat.desc}}</p>
+    </md-card-content>
+    <md-card-actions>
+      <button md-button><i class="material-icons">mode_edit</i>&nbsp; EDIT</button>
+      <button md-button><i class="material-icons">delete_forever</i>&nbsp; DELETE</button>
+    </md-card-actions>
+  </md-card>
+</div>

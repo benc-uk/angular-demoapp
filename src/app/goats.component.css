@@ -1,4 +1,8 @@
-.selected {
+md-list-item {
+  cursor: pointer;
+}
+
+/*.selected {
   background-color: #CFD8DC !important;
   color: white;
 }
@@ -64,3 +68,4 @@ button.delete {
   background-color: gray !important;
   color:white;
 }
+*/

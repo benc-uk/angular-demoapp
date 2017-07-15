@@ -1,5 +1,5 @@
 export class Goat {
-  id: number;
+  RowKey: number;
   name: string;
   photo: string;
   likes: number;

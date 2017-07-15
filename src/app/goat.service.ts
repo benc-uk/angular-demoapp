@@ -35,7 +35,7 @@ export class GoatService {
   }
 
   update(goat: Goat): Promise<Goat> {
-    const url = `${this.apiUrl}/${goat.id}`;
+    const url = `${this.apiUrl}/${goat.RowKey}`;
     return this.http
       .put(url, JSON.stringify(goat), { headers: this.headers })
       .toPromise()

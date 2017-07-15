@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 
 // Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule } from '@angular/material';
+import { MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule, MdListModule } from '@angular/material';
 
 
 @NgModule({
   imports: [
-    MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule
+    BrowserAnimationsModule, MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule, MdListModule
   ],
   exports: [
-    MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule
+    BrowserAnimationsModule, MdIconModule, MdMenuModule, MdToolbarModule, MdSidenavModule, MdGridListModule, MdButtonModule, MdCardModule, MdListModule
   ],
   declarations: []
 })
