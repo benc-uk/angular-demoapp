@@ -30,7 +30,7 @@ if(!environment.production) {
     FormsModule,
     RoutingModule,
     HttpModule,
-    //InMemoryWebApiModule.forRoot(InMemoryDataService),
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
     MaterialModule, FlexLayoutModule ];
 } else {
   app_imports = [
