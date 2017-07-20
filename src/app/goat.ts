@@ -3,4 +3,5 @@ export class Goat {
   name: string;
   photo: string;
   likes: number;
+  desc: string;
 }

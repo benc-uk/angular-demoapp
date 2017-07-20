@@ -1,6 +1,7 @@
 <md-list>
   <h3 md-subheader>All Goats</h3>
-  <md-list-item class="goat-card mat-elevation-z2" *ngFor="let goat of goats" (click)="onSelect(goat)" [class.selected]="goat === selectedGoat" [routerLink]="['/detail', goat.RowKey]">
+  <md-list-item class="goat-card mat-elevation-z2" *ngFor="let goat of goats"
+   (click)="onSelect(goat)" [class.selected]="goat === selectedGoat" [routerLink]="['/detail', goat.RowKey]">
     <md-icon md-list-icon>perm_identity</md-icon>
     <h1 md-line>{{goat.name}}</h1>
   </md-list-item>

@@ -21,6 +21,7 @@ import { SearchComponent }     from './search.component';
 import { environment } from '../environments/environment';
 // Material
 import { MaterialModule } from './material.module';
+import { StubdialogComponent } from './stubdialog.component';
 
 // This is terrible but alternatives didn't look much better
 var app_imports = [];
@@ -30,7 +31,7 @@ if(!environment.production) {
     FormsModule,
     RoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {passThruUnknownUrl:true}),
     MaterialModule, FlexLayoutModule ];
 } else {
   app_imports = [
@@ -47,11 +48,13 @@ if(!environment.production) {
     GoatsComponent,
     DetailComponent,
     DashboardComponent,
-    SearchComponent
+    SearchComponent,
+    StubdialogComponent
   ],
   imports: app_imports,
   providers: [ GoatService ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ], 
+  entryComponents: [ StubdialogComponent ]
 })
 
 export class AppModule { }

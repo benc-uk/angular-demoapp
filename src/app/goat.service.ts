@@ -15,6 +15,7 @@ export class GoatService {
   constructor(private http: Http) { }
 
   list(): Promise<Goat[]> {
+    //console.log(`### API GET ${this.apiUrl}`)
     return this.http.get(this.apiUrl)
       .toPromise()
       .then(response => response.json().data as Goat[])
@@ -26,8 +27,9 @@ export class GoatService {
     return Promise.reject(error.message || error);
   }
 
-  get(id: number): Promise<Goat> {
-    const url = `${this.apiUrl}/${id}`;
+  get(RowKey: number): Promise<Goat> {
+    const url = `${this.apiUrl}/${RowKey}`;
+    //console.log(`### API GET ${url}`)
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Goat)
