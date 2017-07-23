@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
-//import { MdDialog } from '@angular/material';
 
 import { Goat } from './goat';
 import { GoatService } from './goat.service';
-//import { StubdialogComponent } from './stubdialog.component';
 
 @Component({
   selector: 'my-dashboard',
@@ -28,6 +26,7 @@ export class DashboardComponent implements OnInit {
     let snackBarRef = this.snackBar.open(`${goat.name} Liked!`, null, {duration: 2000});
 
     goat.likes++;
+    this.service.update(goat);
     event.stopPropagation();
   }
   

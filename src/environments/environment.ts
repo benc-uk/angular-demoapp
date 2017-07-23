@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api_endpoint: 'http://functions-app-demo.azurewebsites.net/goats'// 'api/goats'
+  api_endpoint: 'http://localhost:8080/goats' //'http://functions-app-demo.azurewebsites.net/goats'// 'api/goats'
 };
