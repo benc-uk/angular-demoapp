@@ -44,7 +44,7 @@ app.get('/goats', function (req, res) {
 
    tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
       if (!error) {
-         // TEMP result.entries.map(goat => flattenObject(goat));
+         result.entries.map(goat => flattenObject(goat));
          res.type('application/json');
          res.send({ data: result.entries });
       }
@@ -81,7 +81,7 @@ app.post('/goats', function (req, res) {
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
    tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
       if (!error) {
-         // TEMP result.entries.sort((g1, g2) => g2.Timestamp._ - g1.Timestamp._);
+         result.entries.sort((g1, g2) => g2.Timestamp._ - g1.Timestamp._);
          newrow = result.entries[0].RowKey._;
          //console.dir(newrow);
          goat.RowKey = (parseInt(newrow) + 1).toString();
