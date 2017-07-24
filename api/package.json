@@ -1,8 +1,9 @@
 {
   "name": "angular-demoapp-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API backend for angular-demoapp",
   "main": "server.js",
+  "engines": {"node": "6.9.1"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
