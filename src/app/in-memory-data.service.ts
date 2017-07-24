@@ -13,7 +13,7 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 16, RowKey: 16, name: 'Sad Ken Jr', photo: 'goat7.jpg', likes: 11, desc: 'Blah' },
       { id: 17, RowKey: 17, name: 'Ziggy Stardust', photo: 'goat8.jpg', likes: 1, desc: 'Blah'  },
       { id: 18, RowKey: 18, name: 'Psycho Killer', photo: 'goat9.jpg', likes: 9, desc: 'Blah'  },
-      { id: 19, RowKey: 19, name: 'Goat Name Placeholder', photo: 'goat10.jpg', likes: 0, desc: 'Blah'  },
+      { id: 19, RowKey: 19, name: 'Nibbler', photo: 'goat1.jpg', likes: 40, desc: 'Blah'  },
       { id: 20, RowKey: 20, name: 'Bert The Goat', photo: 'goat11.jpg', likes: 2, desc: 'Blah'  }
     ];
     return {goats};

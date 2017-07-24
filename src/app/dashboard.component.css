@@ -23,8 +23,24 @@
 
 md-card-header button {
   top: -10px;
+  float:right;
 }
 
 md-card-header .material-icons {
   color:#EC644B;
+}
+
+md-card-title {
+  width:20vw;
+  max-width:20vw;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.spinner {
+  width:100%
+}
+.spinner md-progress-spinner {
+  margin:0 auto;
 }

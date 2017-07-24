@@ -7,7 +7,7 @@ import { MdSnackBar } from '@angular/material';
 
 import { Goat } from './goat';
 import { GoatService } from './goat.service';
-import { StubdialogComponent } from './stubdialog.component';
+import { ConfirmDialogComponent } from './confirmdialog.component';
 
 @Component({
   selector: 'goat-detail',
@@ -42,16 +42,23 @@ export class DetailComponent implements OnInit {
   }
 
   delete(): void {
-    this.dialogRef = this.dialog.open(StubdialogComponent);
+    this.dialogRef = this.dialog.open(ConfirmDialogComponent);
     this.dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.snackBar.open(`${this.goat.name} Deleted!`, null, {duration: 2000});
+        this.snackBar.open(`Oh no, ${this.goat.name} Deleted!`, null, {duration: 2000});
         this.service.delete(this.goat.RowKey).then(() => this.goBack());
       }
     });
   }
 
   stub(): void {
-    //this.service.delete(this.goat.RowKey).then(() => this.goBack());
+    this.snackBar.open(`Not implemented yet!`, null, {duration: 2000});
+  }
+
+  likeGoat(goat: Goat): void {
+    let snackBarRef = this.snackBar.open(`${goat.name} is a great goat!`, null, {duration: 2000});
+
+    goat.likes++;
+    this.service.update(goat);
   }
 }

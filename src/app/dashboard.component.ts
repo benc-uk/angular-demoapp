@@ -19,11 +19,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.service.list()
       .then(g => this.goats = g.sort( function(a, b){return b.likes - a.likes} ))
-      .then(g => this.goats = g.splice(0,6));
+      .then(g => this.goats = g.splice(0,6))
   }
   
   likeGoat(goat: Goat, event): void {
-    let snackBarRef = this.snackBar.open(`${goat.name} Liked!`, null, {duration: 2000});
+    let snackBarRef = this.snackBar.open(`${goat.name} is a great goat!`, null, {duration: 2000});
 
     goat.likes++;
     this.service.update(goat);

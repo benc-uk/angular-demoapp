@@ -30,7 +30,15 @@ var goat_data = [
 // Note APPSETTING_STORAGE_ACCOUNT and APPSETTING_STORAGE_KEY are required to be set
 var tablesvc = azure.createTableService(process.env.APPSETTING_STORAGE_ACCOUNT, process.env.APPSETTING_STORAGE_KEY);
 
-// GET - List goats
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /goats
+ * @group foo - Operations about user
+ * @param {string} email.query.required - username or email
+ * @param {string} password.query.required - user's password.
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
 app.get('/goats', function (req, res) {
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
 

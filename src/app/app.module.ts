@@ -21,7 +21,7 @@ import { SearchComponent }     from './search.component';
 import { environment } from '../environments/environment';
 // Material
 import { MaterialModule } from './material.module';
-import { StubdialogComponent } from './stubdialog.component';
+import { ConfirmDialogComponent } from './confirmdialog.component';
 
 // This is terrible but alternatives didn't look much better
 var app_imports = [];
@@ -49,12 +49,12 @@ if(!environment.production) {
     DetailComponent,
     DashboardComponent,
     SearchComponent,
-    StubdialogComponent
+    ConfirmDialogComponent
   ],
   imports: app_imports,
   providers: [ GoatService ],
   bootstrap: [ AppComponent ], 
-  entryComponents: [ StubdialogComponent ]
+  entryComponents: [ ConfirmDialogComponent ]
 })
 
 export class AppModule { }

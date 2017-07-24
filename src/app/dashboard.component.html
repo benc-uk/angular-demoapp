@@ -1,34 +1,19 @@
-<div fxLayout.xs="column" fxLayout="row" fxLayoutWrap="wrap">
+<div fxLayout.xs="column" fxLayout="row" fxLayoutWrap="wrap" >
   <div fxFlex *ngFor="let goat of goats">
-    <md-card class="goat-card mat-elevation-z6" [routerLink]="['/detail', goat.RowKey]">
-      <md-card-header style='height:45px; max-height:45px'>
-        <md-card-title >{{goat.name}}</md-card-title>
-        <span class="fill-space"></span>
-        <button mdTooltip="Like this goat!" mdTooltipPosition="below" md-button (click)="likeGoat(goat, $event)"><md-icon>favorite</md-icon> {{goat.likes}} </button>
-      </md-card-header>
-      <img md-card-image src='assets/{{goat.photo}}'>
-      <md-card-actions style='text-align:center'>
-      </md-card-actions>
-    </md-card>
-  </div>
-</div>
-
-<!--
-<md-grid-list cols='3' gutterSize='2px' rowHeight='450px'>
-  <md-grid-tile *ngFor="let goat of goats">
-
-    <md-card class="goat-card mat-elevation-z6" [class.mat-elevation-z2]="hover" [routerLink]="['/detail', goat.RowKey]">
+    <md-card  class="goat-card mat-elevation-z6" [routerLink]="['/detail', goat.RowKey]">
       <md-card-header>
         <md-card-title>{{goat.name}}</md-card-title>
         <span class="fill-space"></span>
         <button md-button (click)="likeGoat(goat, $event)"><md-icon>favorite</md-icon> {{goat.likes}} </button>
       </md-card-header>
       <img md-card-image src='assets/{{goat.photo}}'>
-
-      <md-card-actions style='text-align:center'>
-      </md-card-actions>
     </md-card>
+  </div>
 
-  </md-grid-tile>
-</md-grid-list>
--->
+  <!-- loading spinner -->
+  <div class="spinner" *ngIf="goats.length == 0">
+    <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+  </div>
+</div>
+
+

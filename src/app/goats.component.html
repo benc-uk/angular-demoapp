@@ -7,25 +7,10 @@
   </md-list-item>
 </md-list>
 
-<!--
-<h2>All Goats</h2>
-<div>
-  <label>Goat name:</label> <input #goatName />
-  <button (click)="add(goatName.value); goatName.value=''">
-    Add
-  </button>
+<div class="spinner" *ngIf="!goats">
+  <md-progress-spinner mode="indeterminate"></md-progress-spinner>
 </div>
-<ul class="goats">
-  <li *ngFor="let goat of goats" (click)="onSelect(goat)" [class.selected]="goat === selectedGoat">
-    <span class="badge">{{goat.id}}</span>
-    <span>{{goat.name}}</span>
-    <button class="delete" (click)="delete(goat); $event.stopPropagation()">x</button>
-  </li>
-</ul>
-<div *ngIf="selectedGoat">
-  <h2>
-    {{selectedGoat.name | uppercase}} is my goat
-  </h2>
-  <button (click)="gotoDetail()">View Details</button>
+  
+<div style="position: fixed; right: 4vw; bottom: 5vh">
+  <button md-fab><md-icon>add</md-icon></button>
 </div>
--->

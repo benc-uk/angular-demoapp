@@ -1,0 +1,56 @@
+{
+   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+      "angularSiteName": {
+         "type": "string",
+         "metadata": { "description": "Name of the Azure Web app hosting the Angular site" }
+      },
+      "apiSiteName": {
+         "type": "string",
+         "metadata": { "description": "Name of the Azure Web app hosting the API backend site" }
+      },      
+      "appSizingTier": {
+         "type": "string",
+         "defaultValue": "B1",
+         "metadata": { "description": "Size/SKU of shared app service plan for both front & back end Web Apps" }
+      }
+   },
+   "variables": {
+      "servicePlanName": "app-plan",
+      "storageAcctName": "[uniqueString()]"
+   },
+   "resources": [
+
+      {
+         "type": "Microsoft.Web/serverfarms",
+         "apiVersion": "2015-08-01",
+         "name": "[variables('servicePlanName')]",
+         "location": "[resourceGroup().location]",
+         "sku": {
+            "name": "[parameters('appSizingTier')]",
+            "capacity": "[parameters('appInstanceCount')]"
+         }
+      },
+
+      {
+         "type": "Microsoft.Web/sites",
+         "apiVersion": "2015-08-01",
+         "name": "[parameters('webSiteName')]",
+         "location": "[resourceGroup().location]",
+         "properties": {
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
+         },
+         "dependsOn": [
+            "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+         ]
+      }
+
+   ],
+   "outputs": {
+      "websiteUrl": {
+         "type": "string",
+         "value": "[concat('http://', reference(parameters('webSiteName')).hostNames[0])]"
+      }
+   }
+}

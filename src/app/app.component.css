@@ -27,6 +27,6 @@ md-sidenav-container {
 .app-content {
   padding: 5px;
   min-height:100%;
-  overflow-y: scroll; 
+  overflow-y: auto; 
   height: 100%;
 }

@@ -9,6 +9,7 @@
         <p>{{goat.desc}}</p>
     </md-card-content>
     <md-card-actions>
+      <button md-button (click)="likeGoat(goat)"><md-icon>favorite</md-icon>&nbsp; LIKE</button>
       <button md-button (click)="stub()"><md-icon>mode_edit</md-icon>&nbsp; EDIT</button>
       <button md-button (click)="delete()"><md-icon>delete_forever</md-icon>&nbsp; DELETE</button>
     </md-card-actions>
