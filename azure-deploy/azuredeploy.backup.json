@@ -61,6 +61,21 @@
         "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]",
         "[concat('Microsoft.Web/sites/', parameters('apiSiteName'))]"
+      ],
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('angularSiteName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[variables('angularSourceRepo')]",
+            "branch": "master",
+            "IsManualIntegration": true
+          }
+        }
       ]
     },
     {
