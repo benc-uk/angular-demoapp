@@ -14,6 +14,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { AppComponent } from './app.component';
 import { GoatsComponent } from './goats.component';
 import { DetailComponent } from './detail.component';
+import { EditComponent } from './edit.component';
 import { GoatService } from './goat.service';
 import { DashboardComponent } from './dashboard.component';
 import { RoutingModule }     from './routing.module';
@@ -47,6 +48,7 @@ if(!environment.production) {
     AppComponent,
     GoatsComponent,
     DetailComponent,
+    EditComponent,
     DashboardComponent,
     SearchComponent,
     ConfirmDialogComponent

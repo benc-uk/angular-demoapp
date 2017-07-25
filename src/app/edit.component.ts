@@ -4,20 +4,20 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { MdDialog } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
 
 import { Goat } from './goat';
 import { GoatService } from './goat.service';
 import { ConfirmDialogComponent } from './confirmdialog.component';
 
 @Component({
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.css']
 })
 
-export class DetailComponent implements OnInit {
+export class EditComponent implements OnInit {
   goat: Goat;
   dialogRef;
+  photos = [];
 
   constructor(
     private service: GoatService,
@@ -25,12 +25,21 @@ export class DetailComponent implements OnInit {
     private location: Location,
     private dialog: MdDialog,
     public snackBar: MdSnackBar
-  ) { }
+  ) { 
+      for (var i = 1; i <= 11; i++) { 
+        this.photos.push({name:`goat${i}.jpg`});
+    }
+  }
 
   ngOnInit(): void {
+    if(this.route.snapshot.url.length > 1) {
+
     this.route.paramMap
       .switchMap((params: ParamMap) => this.service.get(+params.get('id')))
       .subscribe(g => this.goat = g);
+    } else {
+      this.goat = new Goat();
+    }
   }
 
   goBack(): void {
@@ -41,24 +50,7 @@ export class DetailComponent implements OnInit {
     this.service.update(this.goat).then(() => this.goBack());
   }
 
-  delete(): void {
-    this.dialogRef = this.dialog.open(ConfirmDialogComponent);
-    this.dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.snackBar.open(`Oh no, ${this.goat.name} Deleted!`, null, {duration: 2000});
-        this.service.delete(this.goat.RowKey).then(() => this.goBack());
-      }
-    });
-  }
-
   stub(): void {
     this.snackBar.open(`Not implemented yet!`, null, {duration: 2000});
-  }
-
-  likeGoat(goat: Goat): void {
-    let snackBarRef = this.snackBar.open(`${goat.name} is a great goat!`, null, {duration: 2000});
-
-    goat.likes++;
-    this.service.update(goat);
   }
 }

@@ -1,0 +1,28 @@
+<div *ngIf="goat">
+  <md-card class="detail-card">
+
+    <h1 *ngIf="goat.name">Edit Goat</h1>
+    <h1 *ngIf="!goat.name">New Goat</h1>
+
+    <md-input-container>
+      <input mdInput placeholder="Name" value="{{goat.name}}">
+    </md-input-container><br/>
+    <md-input-container>
+      <input mdInput placeholder="Likes" value="{{goat.likes}}">
+    </md-input-container><br/>
+    <md-input-container>
+      <textarea mdInput placeholder="Description" value="{{goat.desc}}">{{goat.desc}}</textarea>
+    </md-input-container><br/>
+    <md-select placeholder="Photo">
+      <md-option *ngFor="let photo of photos" [value]="photo.name">{{photo.name}}</md-option>
+    </md-select>   
+
+    <br/><br/><br/>
+
+    <md-card-actions>
+      <button color="primary" md-button (click)="goBack()"><md-icon>clear</md-icon>&nbsp; CANCEL</button>
+      <button color="primary" md-button [routerLink]="['/edit', goat.RowKey]"><md-icon>check</md-icon>&nbsp; SAVE</button>
+    </md-card-actions>   
+
+  </md-card>
+</div>

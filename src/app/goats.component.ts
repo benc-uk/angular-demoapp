@@ -5,7 +5,6 @@ import { Goat } from './goat';
 import { GoatService } from './goat.service';
 
 @Component({
-  selector: 'my-goats',
   templateUrl: './goats.component.html',
   styleUrls: ['./goats.component.css'],
 })
