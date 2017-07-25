@@ -26,8 +26,6 @@
     "servicePlanName": "app-plan",
     "storageAcctName": "[uniqueString(resourceGroup().name)]",
     "appServiceInstances": 1,
-    "apiSourceRepo": "https://github.com/benc-uk/angular-demoapp.git",
-    "angularSourceRepo": "https://github.com/benc-uk/angular-server-azure.git",
     "nodeVersion": "6.9.1"
   },
   "resources": [
@@ -93,32 +91,13 @@
             },
             {
               "name": "STORAGE_KEY",
-              "value": "[listKeys(variables('storageAcctName'),'2015-05-01-preview').key1]"
-            },
-            {
-              "name": "PROJECT",
-              "value": "api"
+              "value": "[listKeys(variables('storageAcctName'), '2015-05-01-preview').key1]"
             }
           ]
         }
       },
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
-      ],
-      "resources": [
-        {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('apiSiteName'))]"
-          ],
-          "properties": {
-            "RepoUrl": "[variables('apiSourceRepo')]",
-            "branch": "master",
-            "IsManualIntegration": true
-          }
-        }
       ]
     },
     {
@@ -137,10 +116,6 @@
     "websiteUrl": {
       "type": "string",
       "value": "[concat('http://', reference(parameters('angularSiteName')).hostNames[0])]"
-    },
-    "credentialsCommand": {
-      "type": "string",
-      "value": "[concat('az webapp deployment list-publishing-profiles --name \"', parameters('angularSiteName'), '\" --resource-group \"', resourceGroup().name, '\"')]"
     }
   }
 }

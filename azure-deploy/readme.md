@@ -1,5 +1,8 @@
-# Empty
-Empty starting point template and parameter file for starting from scratch
+# Angular Demo App Azure Template
+Deploy resources to host the Angular demo app
 
 ### Deployed Resources
-None!
+- Web App (Angular frontend site)
+- Web App (API backend site)
+- Storage Account
+- App Service Plan
