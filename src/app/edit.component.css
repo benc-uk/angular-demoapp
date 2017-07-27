@@ -13,3 +13,7 @@ md-card-content {
 md-card-content p {
   font-style: italic;
 }
+.alert {
+  color: #ee3333;
+  font-style: italic;
+}

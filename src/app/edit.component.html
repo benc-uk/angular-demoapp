@@ -5,23 +5,34 @@
     <h1 *ngIf="!goat.name">New Goat</h1>
 
     <md-input-container>
-      <input mdInput placeholder="Name" value="{{goat.name}}">
+      <input required #name="ngModel" mdInput [(ngModel)]="goat.name" placeholder="Name" value="{{goat.name}}">
     </md-input-container><br/>
     <md-input-container>
-      <input mdInput placeholder="Likes" value="{{goat.likes}}">
+      <input required type="number" min="0" step="1" #likes="ngModel" mdInput [(ngModel)]="goat.likes" placeholder="Likes" value="{{goat.likes}}">
     </md-input-container><br/>
     <md-input-container>
-      <textarea mdInput placeholder="Description" value="{{goat.desc}}">{{goat.desc}}</textarea>
+      <textarea mdInput [(ngModel)]="goat.desc" placeholder="Description" value="{{goat.desc}}">{{goat.desc}}</textarea>
     </md-input-container><br/>
-    <md-select placeholder="Photo">
+    <md-select [(ngModel)]="goat.photo" placeholder="Photo">
       <md-option *ngFor="let photo of photos" [value]="photo.name">{{photo.name}}</md-option>
     </md-select>   
 
     <br/><br/><br/>
 
+    <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+      <div [hidden]="!name.errors">
+        Nameless goats are not permitted!
+      </div>
+    </div>
+    <div *ngIf="likes.errors && (likes.dirty || likes.touched)" class="alert alert-danger">
+      <div [hidden]="!likes.errors">
+        Goats must have some likes, even if it's zero :'(
+      </div>
+    </div>
+
     <md-card-actions>
       <button color="primary" md-button (click)="goBack()"><md-icon>clear</md-icon>&nbsp; CANCEL</button>
-      <button color="primary" md-button [routerLink]="['/edit', goat.RowKey]"><md-icon>check</md-icon>&nbsp; SAVE</button>
+      <button *ngIf="!name.errors && !likes.errors" color="primary" md-raised-button  (click)="save()"><md-icon>check</md-icon>&nbsp; SAVE</button>
     </md-card-actions>   
 
   </md-card>

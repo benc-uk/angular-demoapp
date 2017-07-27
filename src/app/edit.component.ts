@@ -39,6 +39,8 @@ export class EditComponent implements OnInit {
       .subscribe(g => this.goat = g);
     } else {
       this.goat = new Goat();
+      this.goat.photo = 'goat1.jpg'
+      this.goat.likes = 0;
     }
   }
 
@@ -47,7 +49,11 @@ export class EditComponent implements OnInit {
   }
 
   save(): void {
-    this.service.update(this.goat).then(() => this.goBack());
+    if(this.goat.RowKey) {
+      this.service.update(this.goat).then(() => this.goBack());
+    } else {
+      this.service.create(this.goat).then(() => this.goBack());
+    }
   }
 
   stub(): void {
