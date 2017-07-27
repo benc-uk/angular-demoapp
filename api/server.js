@@ -67,6 +67,7 @@ app.put('/goats/:id', function (req, res) {
 // POST - Create new goat 
 app.post('/goats', function (req, res) {
    var goat = req.body;
+   //console.dir(goat);
    goat.PartitionKey = TABLE_PKEY;
 
    var maxrowkey = 0;
@@ -75,14 +76,16 @@ app.post('/goats', function (req, res) {
       if (!error) {
          result.entries.sort((g1, g2) => g2.RowKey._ - g1.RowKey._);
          maxrowkey = result.entries[0].RowKey._;
-         //console.dir(newrow);
          goat.RowKey = (parseInt(maxrowkey) + 1).toString();
+         //console.dir(maxrowkey);
          //console.dir(goat)
          tablesvc.insertEntity(TABLE_NAME, goat, function (error, result, response) {
             if (!error) {
-               res.send();
+               //console.log("no error"+res);
+               res.status(200).send( {} );
             } else {
-               res.status(500).send(error.message)
+               //console.dir(error.message);
+               res.status(500).send(error.message);
             }
          });
       } else {
