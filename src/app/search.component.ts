@@ -18,6 +18,7 @@ import { Goat } from './goat';
 @Component({
   selector: 'goat-search',
   templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
   providers: [SearchService]
 })
 export class SearchComponent implements OnInit {
@@ -49,7 +50,9 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  gotoDetail(goat: Goat): void {
+  gotoDetail(goat: Goat, searchBox): void {
+    searchBox.value = ''; 
+    this.search(searchBox.value);
     let link = ['/detail', goat.RowKey];
     this.router.navigate(link);
   }

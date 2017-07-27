@@ -12,8 +12,14 @@ export class SearchService {
    constructor(private http: Http) { }
 
    search(term: string): Observable<Goat[]> {
+      var query_url = "";
+      if (environment.production) {
+         query_url = `${environment.api_endpoint}/search/${term}`;
+      } else {
+         query_url = `${environment.api_endpoint}/?name=${term}`
+      }
       return this.http
-         .get(`${environment.api_endpoint}/?name=${term}`)
+         .get(query_url)
          .map(response => response.json().data as Goat[]);
    }
 }

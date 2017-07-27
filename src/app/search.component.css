@@ -1,20 +1,25 @@
-.search-result{
-  border-bottom: 1px solid gray;
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
-  width:195px;
+.search-result {
+  width: 195px;
   height: 16px;
-  padding: 5px;
-  background-color: white;
+  padding: 10px;
+  padding-bottom: 20px;
+  background-color: white !important;
   cursor: pointer;
+  color: #222222;
+  box-shadow: 3px 3px 8px #888888;
 }
 
 .search-result:hover {
-  color: #eee;
-  background-color: #607D8B;
+  color: #3f51b5;
 }
 
-#search-box{
-  width: 200px;
-  height: 20px;
+.search-container {
+  position: absolute; 
+  z-index:9999;
+}
+
+#search-box {
+  width: 160px;
+  height: 22px;
+  font-size: 0.8em;
 }
