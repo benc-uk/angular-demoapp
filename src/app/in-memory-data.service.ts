@@ -1,7 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
 // Note we need both id and RowKey, real API doesn't use id only RowKey
-export class InMemoryDataService implements InMemoryDbService {
+export class InMemoryGoatService implements InMemoryDbService {
   createDb() {
     const goats = [
       { id: 0, RowKey: 0,  name: 'Nigel', photo: 'goat1.jpg', likes: 0, desc: 'Blah'  },
