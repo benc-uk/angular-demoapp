@@ -30,15 +30,7 @@ var goat_data = [
 // Note APPSETTING_STORAGE_ACCOUNT and APPSETTING_STORAGE_KEY are required to be set
 var tablesvc = azure.createTableService(process.env.APPSETTING_STORAGE_ACCOUNT, process.env.APPSETTING_STORAGE_KEY);
 
-/**
- * This function comment is parsed by doctrine
- * @route GET /goats
- * @group foo - Operations about user
- * @param {string} email.query.required - username or email
- * @param {string} password.query.required - user's password.
- * @returns {object} 200 - An array of user info
- * @returns {Error}  default - Unexpected error
- */
+// GET - List all goats
 app.get('/goats', function (req, res) {
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
 
@@ -77,14 +69,14 @@ app.post('/goats', function (req, res) {
    var goat = req.body;
    goat.PartitionKey = TABLE_PKEY;
 
-   var newrow = 0;
+   var maxrowkey = 0;
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
    tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
       if (!error) {
-         result.entries.sort((g1, g2) => g2.Timestamp._ - g1.Timestamp._);
-         newrow = result.entries[0].RowKey._;
+         result.entries.sort((g1, g2) => g2.RowKey._ - g1.RowKey._);
+         maxrowkey = result.entries[0].RowKey._;
          //console.dir(newrow);
-         goat.RowKey = (parseInt(newrow) + 1).toString();
+         goat.RowKey = (parseInt(maxrowkey) + 1).toString();
          //console.dir(goat)
          tablesvc.insertEntity(TABLE_NAME, goat, function (error, result, response) {
             if (!error) {
@@ -122,8 +114,27 @@ app.get('/initdb', function (req, res) {
    res.status(200).send("Database init started... It should take about 40 seconds")
 });
 
+// GET - Search. Honestly this is junk, but Table Storage doesn't support wildcard/text querying  
+app.get('/goats/search/:q', function (req, res) {
+   var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
+   tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
+      if (!error) {
+         var srch_results = [];
+         // Lets do a brute force full index string match search because we're idiots
+         for(let r of result.entries) {
+            if(r.name._.toString().toLowerCase().includes(req.params.q.toLowerCase())) {
+               srch_results.push(flattenObject(r));
+            }
+         }
+         res.type('application/json');
+         res.send({ data: srch_results });
+      }
+   });
+});
+
+// Catch all
 app.get('*',function (req, res) {
-   res.send("Unknown API route")
+   res.send("Unknown API route, bummer!")
 });
 
 // Start the server
