@@ -6,13 +6,13 @@ import { HttpModule }    from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryGoatService }  from './in-memory-data.service';
 
 // Flexlayout
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { AppComponent } from './app.component';
-import { GoatsComponent } from './goats.component';
+import { ListComponent } from './list.component';
 import { DetailComponent } from './detail.component';
 import { EditComponent } from './edit.component';
 import { GoatService } from './goat.service';
@@ -32,7 +32,7 @@ if(!environment.production) {
     FormsModule,
     RoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {passThruUnknownUrl:true}),
+    InMemoryWebApiModule.forRoot(InMemoryGoatService, {passThruUnknownUrl:true}),
     MaterialModule, FlexLayoutModule ];
 } else {
   app_imports = [
@@ -46,7 +46,7 @@ if(!environment.production) {
 @NgModule({
   declarations: [
     AppComponent,
-    GoatsComponent,
+    ListComponent,
     DetailComponent,
     EditComponent,
     DashboardComponent,
