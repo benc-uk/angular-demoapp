@@ -1,0 +1,15 @@
+<md-list>
+  <h3 md-subheader>All Goats</h3>
+  <md-list-item class="goat-card mat-elevation-z2" *ngFor="let goat of goats" [routerLink]="['/detail', goat.RowKey]">
+    <img md-list-avatar src='assets/{{goat.photo}}' style='' />
+    <h1 md-line>{{goat.name}}</h1>
+  </md-list-item>
+</md-list>
+
+<div class="spinner" *ngIf="!goats">
+  <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+</div>
+  
+<div style="position: fixed; right: 4vw; bottom: 5vh">
+  <button md-fab [routerLink]="['/new']"><md-icon>add</md-icon></button>
+</div>
