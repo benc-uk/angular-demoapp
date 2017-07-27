@@ -29,7 +29,6 @@ export class GoatService {
 
   get(RowKey: number): Promise<Goat> {
     const url = `${this.apiUrl}/${RowKey}`;
-    //console.log(`### API GET ${url}`)
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Goat)
@@ -45,9 +44,15 @@ export class GoatService {
       .catch(this.handleError);
   }
 
-  create(name: string): Promise<Goat> {
+  create(goat: Goat): Promise<Goat> {
+    // Slightly cludgy - when in dev using InMemoryDbService, we fudge IDs on new goats
+    if(!environment.production) {
+      var rand_id = Math.floor((Math.random() * 1000000) + 1);
+      goat.RowKey = rand_id;
+      goat['id'] = rand_id;
+    }
     return this.http
-      .post(this.apiUrl, JSON.stringify({ name: name }), { headers: this.headers })
+      .post(this.apiUrl, JSON.stringify(goat), { headers: this.headers })
       .toPromise()
       .then(res => res.json().data as Goat)
       .catch(this.handleError);

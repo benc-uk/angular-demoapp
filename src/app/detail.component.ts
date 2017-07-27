@@ -37,9 +37,9 @@ export class DetailComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
+  /*save(): void {
     this.service.update(this.goat).then(() => this.goBack());
-  }
+  }*/
 
   delete(): void {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent);
