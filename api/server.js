@@ -10,7 +10,6 @@ app.use(bodyParser.json());
 
 const TABLE_NAME = 'goatTable';
 const TABLE_PKEY = 'goats';
-process.env.PORT
 
 // Only used for init the table
 var goat_data = [

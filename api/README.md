@@ -11,6 +11,10 @@ The server will load these from environmental variables. When running locally [d
 When deployed in Azure App service, you can set these values securely as [App Settings](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-configure). When doing so you do not need to include the "APPSETTING_" prefix
 
 
+# Azure Table Notes
+All data is held in Azure Storage in an Table. The table is named `goatTable` and the partition key for all entities is `goats`
+
+
 # Running
 Just run `npm start` to run the server. The server will listen on port 8080 by default or whatever value is specified in the `PORT` environmental value.
 
