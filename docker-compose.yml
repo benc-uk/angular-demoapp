@@ -1,20 +1,28 @@
 version: "3"
 
 services:
-
-# API container   
+  # Container running the API
+  # Note. IP & port needs to be accessable by end clients / users   
   api:
     image: bencuk/angular-demoapp-api
     build: ./api
     ports:
-    - "8080:8080"
+    - "${API_PORT}:8080"
     environment: 
     - APPSETTING_STORAGE_ACCOUNT=${APPSETTING_STORAGE_ACCOUNT}
     - APPSETTING_STORAGE_KEY=${APPSETTING_STORAGE_KEY}
+    networks:
+     - frontend
+  # Container serving the Angular app from Node
   app:
     image: bencuk/angular-demoapp
     build: .
-    ports: 
+    ports:
     - "3000:3000"
-    environment: 
-    - APPSETTING_API_ENDPOINT=http://localhost:8080/goats
+    environment:
+    # Endpoint here is the container above, but from users 
+    - APPSETTING_API_ENDPOINT=http://${API_HOST}:${API_PORT}/goats
+    networks:
+     - frontend
+networks: 
+  frontend:
