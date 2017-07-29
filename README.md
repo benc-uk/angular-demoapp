@@ -2,10 +2,10 @@
 This is a demo application written in Angular 4 using [Material Components](https://material.angular.io/). The backend API and server is written in Node.js, the persistent database is [Azure table storage](https://azure.microsoft.com/en-gb/services/storage/tables/)
 
 This repo contains three projects and codebases, all of which combine together to make up the complete app:
-- Angular app - The client/front end written in Angular Typescript and held in the [src folder](src)
-- Server - Simple Node.js server to host/serve the Angular index.html and JavaScript after they have been built. Held in the [server folder](https://github.com/benc-uk/angular-server-azure/tree/749094fb12a59bbd8f9b97021bb26f271dc12697).  
+- **Angular app** - The client/front end written in Angular Typescript and held in the [src folder](src)
+- **Server** - Simple Node.js server to host/serve the Angular index.html and JavaScript after they have been built. Held in the [server folder](https://github.com/benc-uk/angular-server-azure/tree/749094fb12a59bbd8f9b97021bb26f271dc12697).  
 Note this is a git submodule, pulled in from this [external repo](https://github.com/benc-uk/angular-server-azure)
-- API backend - The back end service written in Node.js and held in the [api folder](api). See the [README](api/README.md) there for more information
+- **API backend** - The back end service written in Node.js and held in the [api folder](api). See the [README](api/README.md) there for more information
 
 
 # Running The Angular Frontend
@@ -18,4 +18,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # Running The API
 See the API [README](api/README.md) for more information
 
-# Deployment Notes
+
+# Deployment 
+Overall deployment of the application looks as follows
+![diagram](https://user-images.githubusercontent.com/14982936/28728279-f3967b24-73bf-11e7-9db4-fc5d41c6fda8.png)
