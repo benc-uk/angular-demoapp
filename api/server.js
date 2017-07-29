@@ -26,6 +26,12 @@ var goat_data = [
    { id: 20, name: 'Bert The Goat', photo: 'goat11.jpg', likes: 2, desc: "Learning to play piano" }
 ];
 
+// We need these set or it's impossible to continue
+if(!process.env.APPSETTING_STORAGE_ACCOUNT || !process.env.APPSETTING_STORAGE_KEY) {
+    console.log("### !ERROR! Missing env variables `APPSETTING_STORAGE_ACCOUNT` or `APPSETTING_STORAGE_KEY`. Exiting!");
+    process.exit(1)
+}
+
 // Note APPSETTING_STORAGE_ACCOUNT and APPSETTING_STORAGE_KEY are required to be set
 var tablesvc = azure.createTableService(process.env.APPSETTING_STORAGE_ACCOUNT, process.env.APPSETTING_STORAGE_KEY);
 
