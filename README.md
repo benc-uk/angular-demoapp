@@ -1,8 +1,8 @@
 # Angular Demoapp
-This is a demo application written in Angular 4 using [Material Components](https://material.angular.io/). The backend API and server is written in Node.js, the persistent database is [Azure table storage](https://azure.microsoft.com/en-gb/services/storage/tables/)
-The app is based on the ['Tour of Heroes' tutorial](https://angular.io/tutorial) but has been modified and further developed. It's also based on a collection of goats rather than boring old super heroes.
+This is a demo application written in Angular 4 using [Material Components](https://material.angular.io/). The backend API and server is written in Node.js, the persistent database is [Azure table storage](https://azure.microsoft.com/en-gb/services/storage/tables/)  
+The app is based on the ['Tour of Heroes' tutorial](https://angular.io/tutorial) but has been modified and further developed. It's also based on a collection of goats rather than boring old super heroes. Why goats? because I like goats.
 
-The app demonstrates the following core aspects:
+The app demonstrates use of the following core aspects:
 - Angular 4
 - Material Components
 - Responsive design with FlexLayout
@@ -27,12 +27,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 # Running The API
-See the API [README](api/README.md) for more information on running this component.  
+See the [API readme](api/README.md) for more information on running this component.  
 > **Note.** In order to run the API you will first need an Azure Storage account and provide the name and the access key as configuration (see below) 
 
-# Deployment Configuration
-When deployed there are three main configuration settings to be aware of::  
 
+# Deployment Configuration
+When deployed there are three main configuration settings to be aware of:  
 *API Component:*
 - `APPSETTING_STORAGE_ACCOUNT` - Azure storage account name
 - `APPSETTING_STORAGE_KEY` - Access key to the storage account  
@@ -43,9 +43,14 @@ When deployed there are three main configuration settings to be aware of::
 In all cases these configuration parameters are set via standard system environmental variables. You can also use a `.env` file which will be picked up.  
 Note. The `APPSETTING_` prefix is designed to allow configuration when running in Azure App Services
 
+
+# Docker
+
+
 # Azure Templates
+Four Azure Resource Manager (ARM) templates are provided, for a range of deployment scenarios. See the [template readme](azure-deploy/README.md) for more details
 
 
 # Example Architecture (in Azure) 
-Overall deployment of the application looks as follows
+The overall deployment of the application looks as follows. This shows the application deployed into two Azure App Service applications, however when running in containers the overall topology is the same.
 ![diagram](https://user-images.githubusercontent.com/14982936/28728279-f3967b24-73bf-11e7-9db4-fc5d41c6fda8.png)
