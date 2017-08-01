@@ -114,7 +114,26 @@ app.get('/initdb', function (req, res) {
          console.error(error)
       }
    });
-   res.status(200).send("Database init started... It should take about 40 seconds")
+   res.status(200).send("<pre>Database init started... It should take about 40 seconds</pre>")
+});
+
+// GET - Status check page
+app.get('/status', function (req, res) {
+    tablesvc.listTablesSegmented(null, function (error, result, response) {
+        status = "<pre>";
+        status += "*** API STATUS ***";
+        status += "\nAPPSETTING_STORAGE_ACCOUNT= "+process.env.APPSETTING_STORAGE_ACCOUNT; 
+        status += "\nAPPSETTING_STORAGE_KEY (len)= "+process.env.APPSETTING_STORAGE_KEY.length;
+        status += "\n\nTABLE SVC= "+tablesvc;
+        if(!error) {
+            status += "\nTABLE LIST= "+result.entries;    
+        } else {
+            status += "\nTABLE LIST= !!ERROR WITH STORAGE ACCOUNT!!";   
+        }   
+        status += "</pre>";
+        res.send(status);
+    })
+
 });
 
 // GET - Search. Honestly this is junk, but Table Storage doesn't support wildcard/text querying  
