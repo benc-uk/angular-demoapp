@@ -1,6 +1,6 @@
 # Angular Demoapp
 This is a demo application written in Angular 4 using [Material Components](https://material.angular.io/). The backend API and server is written in Node.js, the persistent database is [Azure table storage](https://azure.microsoft.com/en-gb/services/storage/tables/)  
-The app is based on the ['Tour of Heroes' tutorial](https://angular.io/tutorial) but has been modified and further developed. It's also based on a collection of goats rather than boring old super heroes. Why goats? because I like goats.
+The app is based on the ['Tour of Heroes' tutorial](https://angular.io/tutorial) but has been modified and further developed. The default app shows a collection of old 8-bit and 16-bit computers which can be viewed, voted on (liked), and a set of standard CRUD operations performed. The code was designed to be as generic as possible so the base model and services operate on "things", making it easy to change the collection to something else should you wish
 
 The app demonstrates use of the following core aspects:
 - Angular 4
@@ -38,7 +38,7 @@ When deployed there are three main configuration settings to be aware of:
 - `APPSETTING_STORAGE_KEY` - Access key to the storage account  
 
 *App Component:*
-- `APPSETTING_API_ENDPOINT` - Full URL of API endpoint, e.g. `http://dummy-api.net:8080/goats`
+- `APPSETTING_API_ENDPOINT` - Full URL of API endpoint, e.g. `http://my-api-host:8080/things`
 
 In all cases these configuration parameters are set via standard system environmental variables. You can also use a `.env` file which will be picked up.  
 Note. The `APPSETTING_` prefix is designed to allow configuration when running in Azure App Services

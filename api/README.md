@@ -12,7 +12,7 @@ When deployed in Azure App service, you can set these values securely as [App Se
 
 
 # Azure Table Notes
-All data is held in Azure Storage in an Table. The table is named `goatTable` and the partition key for all entities is `goats`
+All data is held in Azure Storage in an Table. The table is named `thingTable` and the partition key for all entities is `things`
 
 
 # Running
@@ -20,18 +20,18 @@ Just run `npm start` to run the server. The server will listen on port 8080 by d
 
 
 # API Specification
-- `GET /goats` - Return a list of all goats
-- `GET /goats/123` - Return a single goat with id (RowKey) 123
-- `GET /goats/search/foo` - Return a list of goats where the name matches 'foo'
-- `PUT /goats/123` - Update a single goat, body should be JSON object corresponding to the goat model (see below)
-- `DELETE /goats/123` - Delete a single goat, with id (RowKey) 123
-- `POST /goats` - Create a new goat, body should be JSON object corresponding to the goat model (see below). RowKey should not be supplied
+- `GET /things` - Return a list of all things
+- `GET /things/123` - Return a single thing with id (RowKey) 123
+- `GET /things/search/foo` - Return a list of things where the name matches 'foo'
+- `PUT /things/123` - Update a single thing, body should be JSON object corresponding to the thing model (see below)
+- `DELETE /things/123` - Delete a single thing, with id (RowKey) 123
+- `POST /things` - Create a new thing, body should be JSON object corresponding to the thing model (see below). RowKey should not be supplied
 - `GET /initdb` - Create or reinitialize the database held in Azure Table storage. Is not synchronous, completion might take up to 40 seconds in background
 
 
-# Goat Model
+# Thing Model
 ```
-Goat {
+Thing {
   RowKey: number;
   name:   string;
   photo:  string;
