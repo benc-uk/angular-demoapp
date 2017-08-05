@@ -1,117 +1,117 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "appSiteName": {
-            "defaultValue": "angular-demosite",
-            "type": "string"
-        },
-        "apiSiteName": {
-            "defaultValue": "angular-demoapi",
-            "type": "string"
-        },
-        "sitePlanSize": {
-            "type": "string",
-            "defaultValue": "B1",
-            "allowedValues": [
-                "B1",
-                "B2",
-                "B3",
-                "S1",
-                "S2",
-                "S3"
-            ]
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appSiteName": {
+      "defaultValue": "angular-demosite",
+      "type": "string"
+    },
+    "apiSiteName": {
+      "defaultValue": "angular-demoapi",
+      "type": "string"
+    },
+    "sitePlanSize": {
+      "type": "string",
+      "defaultValue": "B1",
+      "allowedValues": [
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3"
+      ]
+    }
+  },
+  "variables": {
+    "servicePlanName": "linux-service-plan",
+    "location": "westus",
+    "storageAcctName": "[uniqueString(resourceGroup().name)]",
+    "apiImage": "bencuk/angular-demoapp-api",
+    "appImage": "bencuk/angular-demoapp"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[variables('storageAcctName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "[parameters('sitePlanSize')]",
+        "capacity": 1
+      },
+      "properties": {
+        "reserved": true
+      },
+      "kind": "linux",
+      "name": "[variables('servicePlanName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[variables('location')]"
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "api",
+      "name": "[parameters('apiSiteName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[variables('location')]",
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "DOCKER_CUSTOM_IMAGE_NAME",
+              "value": "[variables('apiImage')]"
+            },
+            {
+              "name": "STORAGE_ACCOUNT",
+              "value": "[variables('storageAcctName')]"
+            },
+            {
+              "name": "STORAGE_KEY",
+              "value": "[listKeys(variables('storageAcctName'), '2015-05-01-preview').key1]"
+            }
+          ]
         }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAcctName'))]"
+      ]
     },
-    "variables": {
-        "servicePlanName": "linux-service-plan",
-        "location": "westus",
-        "storageAcctName": "[uniqueString(resourceGroup().name)]",
-        "apiImage": "bencuk/angular-demoapp-api",
-        "appImage": "bencuk/angular-demoapp"
-    },
-    "resources": [
-        {
-            "type": "Microsoft.Storage/storageAccounts",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "app",
+      "name": "[parameters('appSiteName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[variables('location')]",
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "DOCKER_CUSTOM_IMAGE_NAME",
+              "value": "[variables('appImage')]"
             },
-            "kind": "Storage",
-            "name": "[variables('storageAcctName')]",
-            "apiVersion": "2016-01-01",
-            "location": "[resourceGroup().location]"
-        },
-        {
-            "type": "Microsoft.Web/serverfarms",
-            "sku": {
-                "name": "[parameters('sitePlanSize')]",
-                "capacity": 1
-            },
-            "properties": {
-                "reserved": true
-            },
-            "kind": "linux",
-            "name": "[variables('servicePlanName')]",
-            "apiVersion": "2015-08-01",
-            "location": "[variables('location')]"
-        },
-        {
-            "type": "Microsoft.Web/sites",
-            "kind": "api",
-            "name": "[parameters('apiSiteName')]",
-            "apiVersion": "2015-08-01",
-            "location": "[variables('location')]",
-            "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "DOCKER_CUSTOM_IMAGE_NAME",
-                            "value": "[variables('apiImage')]"
-                        },
-                        {
-                            "name": "STORAGE_ACCOUNT",
-                            "value": "[variables('storageAcctName')]"
-                        },
-                        {
-                            "name": "STORAGE_KEY",
-                            "value": "[listKeys(variables('storageAcctName'), '2015-05-01-preview').key1]"
-                        }
-                    ]
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAcctName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites",
-            "kind": "app",
-            "name": "[parameters('appSiteName')]",
-            "apiVersion": "2015-08-01",
-            "location": "[variables('location')]",
-            "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "DOCKER_CUSTOM_IMAGE_NAME",
-                            "value": "[variables('appImage')]"
-                        },
-                        {
-                            "name": "API_ENDPOINT",
-                            "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
-                        }
-                    ]
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-                "[resourceId('Microsoft.Web/sites', parameters('apiSiteName'))]"
-            ]
-        }        
-    ],
-    "outputs": {}
+            {
+              "name": "API_ENDPOINT",
+              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "[resourceId('Microsoft.Web/sites', parameters('apiSiteName'))]"
+      ]
+    }
+  ],
+  "outputs": {}
 }

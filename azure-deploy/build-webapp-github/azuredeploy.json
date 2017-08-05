@@ -52,7 +52,7 @@
           "appSettings": [
             {
               "name": "API_ENDPOINT",
-              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/goats')]"
+              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
             }
           ]
         }

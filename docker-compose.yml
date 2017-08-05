@@ -21,7 +21,7 @@ services:
     - "3000:3000"
     environment:
     # Endpoint here is the container above, but from users 
-    - APPSETTING_API_ENDPOINT=http://${API_HOST}:${API_PORT}/goats
+    - APPSETTING_API_ENDPOINT=http://${API_HOST}:${API_PORT}/things
     networks:
      - frontend
 networks: 
