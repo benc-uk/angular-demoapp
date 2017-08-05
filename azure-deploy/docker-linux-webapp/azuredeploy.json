@@ -3,11 +3,11 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appSiteName": {
-            "defaultValue": "angular-demosite3",
+            "defaultValue": "angular-demosite",
             "type": "string"
         },
         "apiSiteName": {
-            "defaultValue": "angular-demoapi3",
+            "defaultValue": "angular-demoapi",
             "type": "string"
         },
         "sitePlanSize": {
