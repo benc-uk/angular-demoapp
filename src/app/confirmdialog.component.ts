@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   template: `
-  <h2 md-dialog-title>Delete Goat</h2>
+  <h2 md-dialog-title>Delete...</h2>
   <md-dialog-content class='dc'>Are you sure?</md-dialog-content>
   <md-dialog-actions>
     <button md-button md-dialog-close>No</button>

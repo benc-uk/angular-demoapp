@@ -1,15 +1,14 @@
-.goat-card {
-  /*max-width: 300px;*/
+.thing-card {
   cursor: pointer;
   margin: 6px;
 }
 
-.goat-card md-card-title {
+.thing-card md-card-title {
   font-size: 110%;
 }
 
-.goat-card:hover {
-  background-color: #EFEFEF;
+.thing-card:hover {
+  background-color: #E8EAF6;
   box-shadow: 0 3px 15px -1px rgba(0,0,0,.2), 0 10px 14px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
 }
 

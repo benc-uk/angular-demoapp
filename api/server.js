@@ -8,22 +8,22 @@ var bodyParser = require('body-parser')
 app.use(cors());
 app.use(bodyParser.json());
 
-const TABLE_NAME = 'goatTable';
-const TABLE_PKEY = 'goats';
+const TABLE_NAME = 'thingTable';
+const TABLE_PKEY = 'things';
 
 // Only used for init the table
-var goat_data = [
-   { id: 10, name: 'Nigel', photo: 'goat1.jpg', likes: 0, desc: "A good all round goat" },
-   { id: 11, name: 'Mr Frisky', photo: 'goat2.jpg', likes: 0, desc: "Pretty jumpy fella" },
-   { id: 12, name: 'Lumpy Dave', photo: 'goat3.jpg', likes: 0, desc: "Dave is the name of this goat" },
-   { id: 13, name: 'Old Stumpy', photo: 'goat4.jpg', likes: 0, desc: "Older guy, sleeps a lot" },
-   { id: 14, name: 'Bogart', photo: 'goat5.jpg', likes: 5, desc: "Smells kinda bad, 6/10" },
-   { id: 15, name: 'Dodgy Ian', photo: 'goat6.jpg', likes: 8, desc: "Likely upto no good" },
-   { id: 16, name: 'Sad Ken', photo: 'goat7.jpg', likes: 11, desc: "Cheer up Ken!" },
-   { id: 17, name: 'Just Bob', photo: 'goat8.jpg', likes: 1, desc: "His name is Bob" },
-   { id: 18, name: 'Psycho Goat', photo: 'goat9.jpg', likes: 9, desc: "Watch out for this guy" },
-   { id: 19, name: 'Goatkins', photo: 'goat10.jpg', likes: 0, desc: "Cheeky little fella" },
-   { id: 20, name: 'Bert The Goat', photo: 'goat11.jpg', likes: 2, desc: "Learning to play piano" }
+var thing_data = [
+      { id: 0,  name: 'ZX Spectrum', photo: 'zx-spectrum.jpg', likes: 11, desc: 'Blah' },
+      { id: 11, name: 'Commodore 64', photo: 'c64.jpg', likes: 9, desc: 'Blah' },
+      { id: 12, name: 'Amstrad CPC 464', photo: 'amstrad-cpc-464.jpg', likes: 6, desc: 'Blah' },
+      { id: 13, name: 'ZX81', photo: 'zx81.jpg', likes: 8, desc: 'Blah' },
+      { id: 14, name: 'Amiga A500', photo: 'amiga-a500.jpg', likes: 15, desc: 'Blah' },
+      { id: 15, name: 'Atari 520ST', photo: 'atari-520st.jpg', likes: 2, desc: 'Blah' },
+      { id: 16, name: 'BBC Micro', photo: 'bbc-micro.jpg', likes: 5, desc: 'Blah' },
+      { id: 17, name: 'Commodore VIC-20', photo: 'vic-20.jpg', likes: 3, desc: 'Blah' },
+      { id: 18, name: 'Dragon 32', photo: 'dragon-32.jpg', likes: 4, desc: 'Blah' },
+      { id: 19, name: 'Acorn Electron', photo: 'acorn-electron.jpg', likes: 1, desc: 'Blah' },
+      { id: 20, name: 'SAM Coupé', photo: 'sam-coupe.jpg', likes: 2, desc: 'Blah' }
 ];
 
 // We need these set or it's impossible to continue
@@ -35,21 +35,21 @@ if(!process.env.APPSETTING_STORAGE_ACCOUNT || !process.env.APPSETTING_STORAGE_KE
 // Note APPSETTING_STORAGE_ACCOUNT and APPSETTING_STORAGE_KEY are required to be set
 var tablesvc = azure.createTableService(process.env.APPSETTING_STORAGE_ACCOUNT, process.env.APPSETTING_STORAGE_KEY);
 
-// GET - List all goats
-app.get('/goats', function (req, res) {
+// GET - List all things
+app.get('/things', function (req, res) {
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
 
    tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
       if (!error) {
-         result.entries.map(goat => flattenObject(goat));
+         result.entries.map(thing => flattenObject(thing));
          res.type('application/json');
          res.send({ data: result.entries });
       }
    });
 });
 
-// GET - Single goat by id
-app.get('/goats/:id', function (req, res) {
+// GET - Single thing by id
+app.get('/things/:id', function (req, res) {
    tablesvc.retrieveEntity(TABLE_NAME, TABLE_PKEY, req.params.id, function (error, result, response) {
       if (!error) {
          res.type('application/json');
@@ -58,21 +58,22 @@ app.get('/goats/:id', function (req, res) {
    });
 });
 
-// PUT - Update single goat by id
-app.put('/goats/:id', function (req, res) {
-   var goat = req.body;
-   goat.PartitionKey = TABLE_PKEY;
-   tablesvc.replaceEntity(TABLE_NAME, goat, function (error, result, response) {
+// PUT - Update single thing by id
+app.put('/things/:id', function (req, res) {
+   var thing = req.body;
+   thing.PartitionKey = TABLE_PKEY;
+   tablesvc.replaceEntity(TABLE_NAME, thing, function (error, result, response) {
       if (!error) {
-         res.send();
+         res.type('application/json');
+         res.send({"message": `Thing ${thing.RowKey} was deleted OK`});
       }
    });
 });
 
-// POST - Create new goat 
-app.post('/goats', function (req, res) {
-   var goat = req.body;
-   goat.PartitionKey = TABLE_PKEY;
+// POST - Create new thing 
+app.post('/things', function (req, res) {
+   var thing = req.body;
+   thing.PartitionKey = TABLE_PKEY;
 
    var maxrowkey = 0;
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
@@ -80,10 +81,11 @@ app.post('/goats', function (req, res) {
       if (!error) {
          result.entries.sort((g1, g2) => g2.RowKey._ - g1.RowKey._);
          maxrowkey = result.entries[0].RowKey._;
-         goat.RowKey = (parseInt(maxrowkey) + 1).toString();
-         tablesvc.insertEntity(TABLE_NAME, goat, function (error, result, response) {
+         thing.RowKey = (parseInt(maxrowkey) + 1).toString();
+         tablesvc.insertEntity(TABLE_NAME, thing, function (error, result, response) {
             if (!error) {
-               res.status(200).send( {} );
+               res.type('application/json');
+               res.status(200).send( {"message": `Thing added to table OK, with RowKey ${thing.RowKey}`} );
             } else {
                res.status(500).send(error.message);
             }
@@ -94,12 +96,13 @@ app.post('/goats', function (req, res) {
    });
 });
 
-// DELETE - Update single goat by id
-app.delete('/goats/:id', function (req, res) {
-   var goat = { PartitionKey: { '_': TABLE_PKEY }, RowKey: { '_': req.params.id } };
-   tablesvc.deleteEntity(TABLE_NAME, goat, function (error, result, response) {
+// DELETE - Update single thing by id
+app.delete('/things/:id', function (req, res) {
+   var thing = { PartitionKey: { '_': TABLE_PKEY }, RowKey: { '_': req.params.id } };
+   tablesvc.deleteEntity(TABLE_NAME, thing, function (error, result, response) {
       if (!error) {
-         res.send();
+         res.type('application/json');
+         res.status(200).send({"message": `Thing ${thing.RowKey} was deleted OK`});
       }
    });
 });
@@ -108,36 +111,38 @@ app.delete('/goats/:id', function (req, res) {
 app.get('/initdb', function (req, res) {
    tablesvc.deleteTableIfExists(TABLE_NAME, function (error, result, response) {
       if (!error) {
-         console.log(" ### DB Init started. Table deleted, going to re-create it in 10secs... ");
+         console.log("### DB Init started. Table deleted, going to re-create it in 10secs... ");
          setTimeout(createTable, 10000);
       } else {
          console.error(error)
       }
    });
-   res.status(200).send("<pre>Database init started... It should take about 40 seconds</pre>")
+   res.type('application/json');
+   res.status(200).send({"message":"Database init started. It should take ~40 seconds"})
 });
 
 // GET - Status check page
 app.get('/status', function (req, res) {
-    tablesvc.listTablesSegmented(null, function (error, result, response) {
-        status = "<pre>";
-        status += "*** API STATUS ***";
-        status += "\nAPPSETTING_STORAGE_ACCOUNT= "+process.env.APPSETTING_STORAGE_ACCOUNT; 
-        status += "\nAPPSETTING_STORAGE_KEY (len)= "+process.env.APPSETTING_STORAGE_KEY.length;
-        status += "\n\nTABLE SVC= "+tablesvc;
-        if(!error) {
-            status += "\nTABLE LIST= "+result.entries;    
-        } else {
-            status += "\nTABLE LIST= !!ERROR WITH STORAGE ACCOUNT!!";   
-        }   
-        status += "</pre>";
-        res.send(status);
-    })
+   tablesvc.listTablesSegmented(null, function (error, result, response) {
+      var message = {}
+
+      message.APPSETTING_STORAGE_ACCOUNT = process.env.APPSETTING_STORAGE_ACCOUNT;
+      message.APPSETTING_STORAGE_KEY_EXISTS = (process.env.APPSETTING_STORAGE_KEY.length > 0);
+      message.TABLE_SVC_EXISTS = (tablesvc != null);
+
+      if (!error) {
+         message.TABLE_LIST + result.entries;
+      } else {
+         message.ERROR = "Error with storage account, could not list tables";
+      }
+      
+      res.status(200).send(message);
+   })
 
 });
 
 // GET - Search. Honestly this is junk, but Table Storage doesn't support wildcard/text querying  
-app.get('/goats/search/:q', function (req, res) {
+app.get('/things/search/:q', function (req, res) {
    var query = new azure.TableQuery().where('PartitionKey eq ?', TABLE_PKEY);
    tablesvc.queryEntities(TABLE_NAME, query, null, function (error, result, response) {
       if (!error) {
@@ -156,13 +161,13 @@ app.get('/goats/search/:q', function (req, res) {
 
 // Catch all
 app.get('*',function (req, res) {
-   res.send("Unknown API route, bummer!")
+   res.send("Unknown API route!")
 });
 
 // Start the server
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
-   console.log(`### Goat API listening on port ${port}`)
+   console.log(`### API listening on port ${port}`)
 });
 
 // Object flattener - moves sub-properties referenced by underscore
@@ -177,27 +182,27 @@ function flattenObject(obj) {
 function createTable() {
    tablesvc.createTableIfNotExists(TABLE_NAME, function (error, result, response) {
       if (!error) {
-         console.log(" ### Table created! ");
+         console.log("### Table (re)created! ");
          var batch = new azure.TableBatch();
-         for (var g = 0; g < goat_data.length; g++) {
-            var goat = {
+         for (var g = 0; g < thing_data.length; g++) {
+            var thing = {
                PartitionKey: { '_': TABLE_PKEY },
-               RowKey: { '_': goat_data[g].id.toString() },
-               name: { '_': goat_data[g].name },
-               photo: { '_': goat_data[g].photo },
-               likes: { '_': goat_data[g].likes },
-               desc: { '_': goat_data[g].desc }
+               RowKey: { '_': thing_data[g].id.toString() },
+               name: { '_': thing_data[g].name },
+               photo: { '_': thing_data[g].photo },
+               likes: { '_': thing_data[g].likes },
+               desc: { '_': thing_data[g].desc }
             };
-            batch.insertOrReplaceEntity(goat, { echoContent: true });
+            batch.insertOrReplaceEntity(thing, { echoContent: true });
          }
          tablesvc.executeBatch(TABLE_NAME, batch, function (error, result, response) {
             if (!error) {
-               console.log(" ### Added fresh batch of goats to table, DB init complete!")
+               console.log("### Added fresh batch of things to table, DB init complete!")
             }
          });
       } else {
          if (error.statusCode == 409) {
-            console.log(" ### Table still being deleted, retry in 10sec... ");
+            console.log("### Table still being deleted, will retry in 10sec... ");
             setTimeout(createTable, 10000);
          }
       }

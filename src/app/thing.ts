@@ -1,7 +1,7 @@
 
-// Basic model to hold a goat!
+// Basic model to hold a thing!
 
-export class Goat {
+export class Thing {
   RowKey: number;
   name: string;
   photo: string;

@@ -1,0 +1,5 @@
+{
+    "name": "api-server",
+    "script": "./server.js",
+    "watch": true
+}

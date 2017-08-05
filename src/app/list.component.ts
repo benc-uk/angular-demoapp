@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Goat } from './goat';
-import { GoatService } from './goat.service';
+import { Thing } from './thing';
+import { ThingService } from './thing.service';
 
 @Component({
   templateUrl: './list.component.html',
@@ -11,45 +11,13 @@ import { GoatService } from './goat.service';
 
 export class ListComponent implements OnInit {
   title = 'Angular4 Demoapp';
-  goats: Goat[];
-  selectedGoat: Goat;
+  things: Thing[];
 
   constructor(
     private router: Router,
-    private service: GoatService) { }
-
-  getGoats(): void {
-    this.service.list().then(g => this.goats = g);
-  }
-
-  onSelect(goat: Goat): void {
-    this.selectedGoat = goat;
-  }
+    private service: ThingService) { }
 
   ngOnInit(): void {
-    this.getGoats();
+    this.service.list().then(g => this.things = g);
   }
-
-  gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedGoat.RowKey]);
-  }
-
-  /*add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.service.create(name)
-      .then(g => {
-        this.goats.push(g);
-        this.selectedGoat = null;
-      });
-  }*/
-
-  /*delete(goat: Goat): void {
-    this.service
-      .delete(goat.RowKey)
-      .then(() => {
-        this.goats = this.goats.filter(g => g !== goat);
-        if (this.selectedGoat === goat) { this.selectedGoat = null; }
-      });
-  }*/
 }

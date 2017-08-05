@@ -6,7 +6,7 @@ import { HttpModule }    from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryGoatService }  from './in-memory-data.service';
+import { InMemoryThingService }  from './in-memory-data.service';
 
 // Flexlayout
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { ListComponent } from './list.component';
 import { DetailComponent } from './detail.component';
 import { EditComponent } from './edit.component';
-import { GoatService } from './goat.service';
+import { ThingService } from './thing.service';
 import { DashboardComponent } from './dashboard.component';
 import { RoutingModule }     from './routing.module';
 import { SearchComponent }     from './search.component';
@@ -32,7 +32,7 @@ if(!environment.production) {
     FormsModule,
     RoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryGoatService, {passThruUnknownUrl:true}),
+    InMemoryWebApiModule.forRoot(InMemoryThingService, {passThruUnknownUrl:true}),
     MaterialModule, FlexLayoutModule ];
 } else {
   app_imports = [
@@ -54,7 +54,7 @@ if(!environment.production) {
     ConfirmDialogComponent
   ],
   imports: app_imports,
-  providers: [ GoatService ],
+  providers: [ ThingService ],
   bootstrap: [ AppComponent ], 
   entryComponents: [ ConfirmDialogComponent ]
 })

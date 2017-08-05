@@ -6,8 +6,8 @@ import { MdDialog } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { Goat } from './goat';
-import { GoatService } from './goat.service';
+import { Thing } from './thing';
+import { ThingService } from './thing.service';
 import { ConfirmDialogComponent } from './confirmdialog.component';
 
 @Component({
@@ -16,11 +16,11 @@ import { ConfirmDialogComponent } from './confirmdialog.component';
 })
 
 export class DetailComponent implements OnInit {
-  goat: Goat;
+  thing: Thing;
   dialogRef;
 
   constructor(
-    private service: GoatService,
+    private service: ThingService,
     private route: ActivatedRoute,
     private location: Location,
     private dialog: MdDialog,
@@ -30,23 +30,19 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.service.get(+params.get('id')))
-      .subscribe(g => this.goat = g);
+      .subscribe(g => this.thing = g);
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  /*save(): void {
-    this.service.update(this.goat).then(() => this.goBack());
-  }*/
-
   delete(): void {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent);
     this.dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.snackBar.open(`Oh no, ${this.goat.name} Deleted!`, null, {duration: 2000});
-        this.service.delete(this.goat.RowKey).then(() => this.goBack());
+        this.snackBar.open(`Oh no, ${this.thing.name} Deleted!`, null, {duration: 2000});
+        this.service.delete(this.thing.RowKey).then(() => this.goBack());
       }
     });
   }
@@ -55,10 +51,10 @@ export class DetailComponent implements OnInit {
     this.snackBar.open(`Not implemented yet!`, null, {duration: 2000});
   }
 
-  likeGoat(goat: Goat): void {
-    let snackBarRef = this.snackBar.open(`${goat.name} is a great goat!`, null, {duration: 2000});
+  like(thing: Thing): void {
+    let snackBarRef = this.snackBar.open(`Yeah, ${thing.name} is great!`, null, {duration: 2000});
 
-    goat.likes++;
-    this.service.update(goat);
+    thing.likes++;
+    this.service.update(thing);
   }
 }

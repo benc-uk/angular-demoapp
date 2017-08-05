@@ -13,16 +13,16 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { SearchService } from './search.service';
-import { Goat } from './goat';
+import { Thing } from './thing';
 
 @Component({
-  selector: 'goat-search',
+  selector: 'thing-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
   providers: [SearchService]
 })
 export class SearchComponent implements OnInit {
-  goats: Observable<Goat[]>;
+  Things: Observable<Thing[]>;
   private searchTerms = new Subject<string>();
 
   constructor(
@@ -35,25 +35,25 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.goats = this.searchTerms
+    this.Things = this.searchTerms
       .debounceTime(300)        // wait 300ms after each keystroke before considering the term
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time the term changes
         // return the http search observable
         ? this.searchSvc.search(term)
-        // or the observable of empty goats if there was no search term
-        : Observable.of<Goat[]>([]))
+        // or the observable of empty Things if there was no search term
+        : Observable.of<Thing[]>([]))
       .catch(error => {
         // TODO: add real error handling
         console.log(error);
-        return Observable.of<Goat[]>([]);
+        return Observable.of<Thing[]>([]);
       });
   }
 
-  gotoDetail(goat: Goat, searchBox): void {
+  gotoDetail(Thing: Thing, searchBox): void {
     searchBox.value = ''; 
     this.search(searchBox.value);
-    let link = ['/detail', goat.RowKey];
+    let link = ['/detail', Thing.RowKey];
     this.router.navigate(link);
   }
 }

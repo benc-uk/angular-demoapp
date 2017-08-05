@@ -5,8 +5,8 @@ import { Location } from '@angular/common';
 import { MdDialog } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
 
-import { Goat } from './goat';
-import { GoatService } from './goat.service';
+import { Thing } from './thing';
+import { ThingService } from './thing.service';
 import { ConfirmDialogComponent } from './confirmdialog.component';
 
 @Component({
@@ -15,19 +15,20 @@ import { ConfirmDialogComponent } from './confirmdialog.component';
 })
 
 export class EditComponent implements OnInit {
-  goat: Goat;
+  thing: Thing;
   dialogRef;
   photos = [];
 
   constructor(
-    private service: GoatService,
+    private service: ThingService,
     private route: ActivatedRoute,
     private location: Location,
     private dialog: MdDialog,
     public snackBar: MdSnackBar
   ) { 
       for (var i = 1; i <= 11; i++) { 
-        this.photos.push({name:`goat${i}.jpg`});
+        // This super rubbish, maybe add file upload features later
+        this.photos = ["acorn-electron.jpg", "amiga-a500.jpg", "amstrad-cpc-464.jpg", "angular.svg", "atari-520st.jpg", "bbc-micro.jpg", "c64.jpg", "dragon-32.jpg", "github.svg", "sam-coupe.jpg", "vic-20.jpg", "zx-spectrum.jpg", "zx81.jpg"];
     }
   }
 
@@ -36,11 +37,11 @@ export class EditComponent implements OnInit {
 
     this.route.paramMap
       .switchMap((params: ParamMap) => this.service.get(+params.get('id')))
-      .subscribe(g => this.goat = g);
+      .subscribe(g => this.thing = g);
     } else {
-      this.goat = new Goat();
-      this.goat.photo = 'goat1.jpg'
-      this.goat.likes = 0;
+      this.thing = new Thing();
+      this.thing.photo = 'zx-spectrum.jpg'
+      this.thing.likes = 0;
     }
   }
 
@@ -49,10 +50,10 @@ export class EditComponent implements OnInit {
   }
 
   save(): void {
-    if(this.goat.RowKey) {
-      this.service.update(this.goat).then(() => this.goBack());
+    if(this.thing.RowKey) {
+      this.service.update(this.thing).then(() => this.goBack());
     } else {
-      this.service.create(this.goat).then(() => this.goBack());
+      this.service.create(this.thing).then(() => this.goBack());
     }
   }
 

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Goat } from './goat';
+import { Thing } from './thing';
 import { environment } from '../environments/environment';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class SearchService {
 
    constructor(private http: Http) { }
 
-   search(term: string): Observable<Goat[]> {
+   search(term: string): Observable<Thing[]> {
       var query_url = "";
       if (environment.production) {
          query_url = `${environment.api_endpoint}/search/${term}`;
@@ -20,6 +20,6 @@ export class SearchService {
       }
       return this.http
          .get(query_url)
-         .map(response => response.json().data as Goat[]);
+         .map(response => response.json().data as Thing[]);
    }
 }

@@ -1,17 +1,17 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutWrap="wrap" >
-  <div fxFlex *ngFor="let goat of goats">
-    <md-card  class="goat-card mat-elevation-z6" [routerLink]="['/detail', goat.RowKey]">
+  <div fxFlex *ngFor="let thing of things">
+    <md-card  class="thing-card mat-elevation-z6" [routerLink]="['/detail', thing.RowKey]">
       <md-card-header>
-        <md-card-title>{{goat.name}}</md-card-title>
+        <md-card-title>{{thing.name}}</md-card-title>
         <span class="fill-space"></span>
-        <button md-button (click)="likeGoat(goat, $event)"><md-icon>favorite</md-icon> {{goat.likes}} </button>
+        <button md-button (click)="like(thing, $event)"><md-icon>favorite</md-icon> {{thing.likes}} </button>
       </md-card-header>
-      <img md-card-image src='assets/{{goat.photo}}'>
+      <img md-card-image src='assets/{{thing.photo}}'>
     </md-card>
   </div>
 
   <!-- loading spinner -->
-  <div class="spinner" *ngIf="goats.length == 0">
+  <div class="spinner" *ngIf="things.length == 0">
     <md-progress-spinner mode="indeterminate"></md-progress-spinner>
   </div>
 </div>

@@ -2,11 +2,11 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Goat } from './goat';
+import { Thing } from './thing';
 import { environment } from '../environments/environment';
 
 @Injectable()
-export class GoatService {
+export class ThingService {
 
   // URL to web api - can be remote or local in memory 
   private apiUrl = environment.api_endpoint;
@@ -14,11 +14,11 @@ export class GoatService {
 
   constructor(private http: Http) { }
 
-  list(): Promise<Goat[]> {
+  list(): Promise<Thing[]> {
     //console.log(`### API GET ${this.apiUrl}`)
     return this.http.get(this.apiUrl)
       .toPromise()
-      .then(response => response.json().data as Goat[])
+      .then(response => response.json().data as Thing[])
       .catch(this.handleError);
   }
 
@@ -27,34 +27,34 @@ export class GoatService {
     return Promise.reject(error.message || error);
   }
 
-  get(RowKey: number): Promise<Goat> {
+  get(RowKey: number): Promise<Thing> {
     const url = `${this.apiUrl}/${RowKey}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Goat)
+      .then(response => response.json().data as Thing)
       .catch(this.handleError);
   }
 
-  update(goat: Goat): Promise<Goat> {
-    const url = `${this.apiUrl}/${goat.RowKey}`;
+  update(Thing: Thing): Promise<Thing> {
+    const url = `${this.apiUrl}/${Thing.RowKey}`;
     return this.http
-      .put(url, JSON.stringify(goat), { headers: this.headers })
+      .put(url, JSON.stringify(Thing), { headers: this.headers })
       .toPromise()
-      .then(() => goat)
+      .then(() => Thing)
       .catch(this.handleError);
   }
 
-  create(goat: Goat): Promise<Goat> {
-    // Slightly cludgy - when in dev using InMemoryDbService, we fudge IDs on new goats
+  create(Thing: Thing): Promise<Thing> {
+    // Slightly cludgy - when in dev using InMemoryDbService, we fudge IDs on new Things
     if(!environment.production) {
       var rand_id = Math.floor((Math.random() * 1000000) + 1);
-      goat.RowKey = rand_id;
-      goat['id'] = rand_id;
+      Thing.RowKey = rand_id;
+      Thing['id'] = rand_id;
     }
     return this.http
-      .post(this.apiUrl, JSON.stringify(goat), { headers: this.headers })
+      .post(this.apiUrl, JSON.stringify(Thing), { headers: this.headers })
       .toPromise()
-      .then(res => res.json().data as Goat)
+      .then(res => res.json().data as Thing)
       .catch(this.handleError);
   }
 

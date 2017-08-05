@@ -1,32 +1,32 @@
-<div *ngIf="goat">
+<div *ngIf="thing">
   <md-card class="detail-card">
 
-    <h1 *ngIf="goat.name">Edit Goat</h1>
-    <h1 *ngIf="!goat.name">New Goat</h1>
+    <h1 *ngIf="thing.name">Edit Existing</h1>
+    <h1 *ngIf="!thing.name">Add New</h1>
 
     <md-input-container>
-      <input required #name="ngModel" mdInput [(ngModel)]="goat.name" placeholder="Name" value="{{goat.name}}">
+      <input required #name="ngModel" mdInput [(ngModel)]="thing.name" placeholder="Name" value="{{thing.name}}">
     </md-input-container><br/>
     <md-input-container>
-      <input required type="number" min="0" step="1" #likes="ngModel" mdInput [(ngModel)]="goat.likes" placeholder="Likes" value="{{goat.likes}}">
+      <input required type="number" min="0" step="1" #likes="ngModel" mdInput [(ngModel)]="thing.likes" placeholder="Likes" value="{{thing.likes}}">
     </md-input-container><br/>
     <md-input-container>
-      <textarea mdInput [(ngModel)]="goat.desc" placeholder="Description" value="{{goat.desc}}">{{goat.desc}}</textarea>
+      <textarea mdInput [(ngModel)]="thing.desc" placeholder="Description" value="{{thing.desc}}">{{thing.desc}}</textarea>
     </md-input-container><br/>
-    <md-select [(ngModel)]="goat.photo" placeholder="Photo">
-      <md-option *ngFor="let photo of photos" [value]="photo.name">{{photo.name}}</md-option>
+    <md-select [(ngModel)]="thing.photo" placeholder="Photo">
+      <md-option *ngFor="let photo of photos" [value]="photo">{{photo}}</md-option>
     </md-select>   
 
     <br/><br/><br/>
 
     <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
       <div [hidden]="!name.errors">
-        Nameless goats are not permitted!
+        Nameless items are not permitted!
       </div>
     </div>
     <div *ngIf="likes.errors && (likes.dirty || likes.touched)" class="alert alert-danger">
       <div [hidden]="!likes.errors">
-        Goats must have some likes, even if it's zero :'(
+        Items must have some likes, even if it's zero :'(
       </div>
     </div>
 
