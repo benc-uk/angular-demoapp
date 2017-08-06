@@ -22,7 +22,7 @@ import { Thing } from './thing';
   providers: [SearchService]
 })
 export class SearchComponent implements OnInit {
-  Things: Observable<Thing[]>;
+  search_things: Observable<Thing[]>;
   private searchTerms = new Subject<string>();
 
   constructor(
@@ -35,7 +35,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.Things = this.searchTerms
+    this.search_things = this.searchTerms
       .debounceTime(300)        // wait 300ms after each keystroke before considering the term
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time the term changes
