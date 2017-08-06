@@ -65,7 +65,7 @@ app.put('/things/:id', function (req, res) {
    tablesvc.replaceEntity(TABLE_NAME, thing, function (error, result, response) {
       if (!error) {
          res.type('application/json');
-         res.send({"message": `Thing ${thing.RowKey} was deleted OK`});
+         res.send( {message: `Thing ${thing.RowKey} was deleted OK`} );
       }
    });
 });
@@ -85,9 +85,9 @@ app.post('/things', function (req, res) {
          res.type('application/json');
          tablesvc.insertEntity(TABLE_NAME, thing, function (error, result, response) {
             if (!error) {
-               res.status(200).send( {"message": `Thing added to table OK, with RowKey ${thing.RowKey}`} );
+               res.status(200).send({ message: `Thing added to table OK, with RowKey ${thing.RowKey}`} );
             } else {
-               res.status(500).send({ "message": `Error creating thing: '${error.message}'` });
+               res.status(500).send({ message: `Error creating thing: '${error.message}'` });
             }
          });
       } else {
@@ -102,9 +102,9 @@ app.delete('/things/:id', function (req, res) {
     tablesvc.deleteEntity(TABLE_NAME, thing, function (error, result, response) {
         res.type('application/json');
         if (!error) {
-            res.status(200).send({ "message": `Thing ${thing.RowKey._} was deleted OK` });
+            res.status(200).send({ message: `Thing ${thing.RowKey._} was deleted OK` });
         } else {
-            res.status(500).send({ "message": `Error deleting thing: '${error.message}'` });
+            res.status(500).send({ message: `Error deleting thing: '${error.message}'` });
         }
     });
 });
@@ -120,7 +120,7 @@ app.get('/initdb', function (req, res) {
       }
    });
    res.type('application/json');
-   res.status(200).send({"message":"Database init started. It should take ~40 seconds"})
+   res.status(200).send({ message:"Database init started. It should take ~40 seconds" })
 });
 
 // GET - Status check 
@@ -156,6 +156,7 @@ app.get('/things/search/:q', function (req, res) {
             }
          }
          res.type('application/json');
+         console.dir(srch_results)
          res.send({ data: srch_results });
       }
    });
