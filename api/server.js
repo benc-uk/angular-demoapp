@@ -82,12 +82,12 @@ app.post('/things', function (req, res) {
          result.entries.sort((g1, g2) => g2.RowKey._ - g1.RowKey._);
          maxrowkey = result.entries[0].RowKey._;
          thing.RowKey = (parseInt(maxrowkey) + 1).toString();
+         res.type('application/json');
          tablesvc.insertEntity(TABLE_NAME, thing, function (error, result, response) {
             if (!error) {
-               res.type('application/json');
                res.status(200).send( {"message": `Thing added to table OK, with RowKey ${thing.RowKey}`} );
             } else {
-               res.status(500).send(error.message);
+               res.status(500).send({ "message": `Error creating thing: '${error.message}'` });
             }
          });
       } else {
@@ -96,15 +96,17 @@ app.post('/things', function (req, res) {
    });
 });
 
-// DELETE - Update single thing by id
+// DELETE - Remove single thing by id
 app.delete('/things/:id', function (req, res) {
-   var thing = { PartitionKey: { '_': TABLE_PKEY }, RowKey: { '_': req.params.id } };
-   tablesvc.deleteEntity(TABLE_NAME, thing, function (error, result, response) {
-      if (!error) {
-         res.type('application/json');
-         res.status(200).send({"message": `Thing ${thing.RowKey} was deleted OK`});
-      }
-   });
+    var thing = { PartitionKey: { '_': TABLE_PKEY }, RowKey: { '_': req.params.id } };
+    tablesvc.deleteEntity(TABLE_NAME, thing, function (error, result, response) {
+        res.type('application/json');
+        if (!error) {
+            res.status(200).send({ "message": `Thing ${thing.RowKey._} was deleted OK` });
+        } else {
+            res.status(500).send({ "message": `Error deleting thing: '${error.message}'` });
+        }
+    });
 });
 
 // GET - Init the database, wipe and reset data
@@ -121,7 +123,7 @@ app.get('/initdb', function (req, res) {
    res.status(200).send({"message":"Database init started. It should take ~40 seconds"})
 });
 
-// GET - Status check page
+// GET - Status check 
 app.get('/status', function (req, res) {
    tablesvc.listTablesSegmented(null, function (error, result, response) {
       var message = {}
@@ -131,7 +133,7 @@ app.get('/status', function (req, res) {
       message.TABLE_SVC_EXISTS = (tablesvc != null);
 
       if (!error) {
-         message.TABLE_LIST + result.entries;
+         message.TABLE_LIST = result.entries;
       } else {
          message.ERROR = "Error with storage account, could not list tables";
       }
