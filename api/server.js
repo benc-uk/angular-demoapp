@@ -156,7 +156,6 @@ app.get('/things/search/:q', function (req, res) {
             }
          }
          res.type('application/json');
-         console.dir(srch_results)
          res.send({ data: srch_results });
       }
    });
