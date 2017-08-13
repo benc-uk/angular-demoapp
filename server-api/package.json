@@ -1,0 +1,33 @@
+{
+  "name": "angular-demoapp-api",
+  "version": "1.0.1",
+  "description": "API backend for angular-demoapp",
+  "main": "server.js",
+  "engines": {"node": "6.9.1"},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start-dev": "node server.js ../dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benc-uk/angular-demoapp-api.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Ben Coleman",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/benc-uk/angular-demoapp-api/issues"
+  },
+  "homepage": "https://github.com/benc-uk/angular-demoapp-api#readme",
+  "dependencies": {
+    "azure-storage": "^2.2.1",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3"
+  }
+}
