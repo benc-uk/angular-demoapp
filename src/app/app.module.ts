@@ -6,7 +6,7 @@ import { HttpModule }    from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryThingService }  from './in-memory-data.service';
+import { AppHttpModule }  from './app-http.module';
 
 // Flexlayout
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -24,25 +24,6 @@ import { environment } from '../environments/environment';
 import { MaterialModule } from './material.module';
 import { ConfirmDialogComponent } from './confirmdialog.component';
 
-// This is terrible but alternatives didn't look much better
-var app_imports = [];
-if(!environment.production) {
-  app_imports = [
-    BrowserModule,
-    FormsModule,
-    RoutingModule,
-    HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryThingService, {passThruUnknownUrl:true}),
-    MaterialModule, FlexLayoutModule ];
-} else {
-  app_imports = [
-    BrowserModule,
-    FormsModule,
-    RoutingModule,
-    HttpModule,
-    MaterialModule, FlexLayoutModule ]
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +34,13 @@ if(!environment.production) {
     SearchComponent,
     ConfirmDialogComponent
   ],
-  imports: app_imports,
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RoutingModule,
+    HttpModule,
+    AppHttpModule,
+    MaterialModule, FlexLayoutModule ],
   providers: [ ThingService ],
   bootstrap: [ AppComponent ], 
   entryComponents: [ ConfirmDialogComponent ]
