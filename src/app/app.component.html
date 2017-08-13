@@ -12,8 +12,9 @@
          <md-icon> pageview </md-icon>
          <span> LIST </span>
        </button>
-        
+
       <span class="fill-space"></span>
+      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <md-icon>build</md-icon> dev mode &nbsp;&nbsp;</span>
 
       <thing-search></thing-search>
 
@@ -39,6 +40,7 @@
          <span> LIST </span>
        </button>
       </md-menu>
+      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <md-icon>build</md-icon> dev mode &nbsp;&nbsp;</span>
     </div>
   </md-toolbar>
 
