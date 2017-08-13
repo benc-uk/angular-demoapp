@@ -1,4 +1,34 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { InMemoryDbService, InMemoryBackendService } from 'angular-in-memory-web-api';
+import { ResponseOptions, XSRFStrategy, BrowserXhr, XHRBackend, HttpModule } from "@angular/http";
+import { Injector, NgModule } from "@angular/core";
+import { environment } from "../environments/environment";
+
+/* 
+ This code for providing either InMemoryBackendService or proper XHR service
+ taken from http://shermandigital.com/blog/in-memory-web-api-for-testing-angular-apps/ 
+*/
+@NgModule({
+  imports: [HttpModule],
+  providers: [
+    {
+      provide: XHRBackend,
+      useFactory: httpFactory,
+      deps: [Injector, BrowserXhr, XSRFStrategy, ResponseOptions]
+    }
+  ]
+})
+export class AppHttpModule {
+}
+
+export function httpFactory(injector: Injector, browser: BrowserXhr, xsrf: XSRFStrategy, options: ResponseOptions) {
+  if (environment.production) {
+    return new XHRBackend(browser, options, xsrf);
+  } else {
+    return new InMemoryBackendService(injector, new InMemoryThingService(), {
+      // the configuration object
+    });
+  }
+}
 
 // Note we need both id and RowKey, real API doesn't use id only RowKey
 export class InMemoryThingService implements InMemoryDbService {
@@ -14,9 +44,10 @@ export class InMemoryThingService implements InMemoryDbService {
       { id: 17, RowKey: 17, name: 'Commodore VIC-20', photo: 'vic-20.jpg', likes: 3, desc: 'The VIC-20 is an 8-bit home computer that was sold by Commodore Business Machines. The VIC-20 was announced in 1980, roughly three years after Commodore\'s first personal computer, the PET. The VIC-20 was the first computer of any description to sell one million units' },
       { id: 18, RowKey: 18, name: 'Dragon 32', photo: 'dragon-32.jpg', likes: 4, desc: 'The Dragon 32 and Dragon 64 are home computers that were built in the 1980s. The Dragons are very similar to the TRS-80 Color Computer, and were produced for the European market by Dragon Data, Ltd., in Port Talbot, Wales, and for the US market by Tano of New Orleans, Louisiana. The model numbers reflect the primary difference between the two machines, which have 32 and 64 kilobytes of RAM, respectively.' },
       { id: 19, RowKey: 19, name: 'Acorn Electron', photo: 'acorn-electron.jpg', likes: 1, desc: 'The Acorn Electron is a budget version of the BBC Micro educational/home computer made by Acorn Computers Ltd. It has 32 kilobytes of RAM, and its ROM includes BBC BASIC v2 along with its operating system. The Electron was able to save and load programs onto audio cassette via a supplied converter cable that connected it to any standard tape recorder that had the correct sockets. It was capable of basic graphics, and could display onto either a television set, a colour (RGB) monitor or a "green screen" monitor.' },
-      { id: 20, RowKey: 20, name: 'SAM Coupé', photo: 'sam-coupe.jpg', likes: 2, desc: 'The SAM Coupé is an 8-bit British home computer that was first released in late 1989. It is commonly considered a clone of the Sinclair ZX Spectrum computer, since it features a compatible screen mode and emulated compatibility, and it was marketed as a logical upgrade from the Spectrum. The machine is based around a Z80B CPU clocked at 6 MHz and a 10,000-gate ASIC. The ASIC performs a similar role in the computer to the ULA in the ZX Spectrum.' }
+      { id: 20, RowKey: 20, name: 'SAM Coupé', photo: 'sam-coupe.jpg', likes: 2, desc: 'The SAM Coupé is an 8-bit British home computer that was first released in late 1989. It is commonly considered a clone of the Sinclair ZX Spectrum computer, since it features a compatible screen mode and emulated compatibility, and it was marketed as a logical upgrade from the Spectrum. The machine is based around a Z80B CPU clocked at 6 MHz and a 10,000-gate ASIC. The ASIC performs a similar role in the computer to the ULA in the ZX Spectrum.' },
+      { id: 99, RowKey: 99, name: 'Dummy API Mode', photo: 'dummy.jpg', likes: 0, desc: 'This is not a real computer, this means you\'re running again the in memory dummy API' }      
     ];
 
-    return {things};
+    return { things };
   }
 }
