@@ -5,5 +5,5 @@
 
 export const environment = {
   production: true,
-  api_endpoint: eval("_APPSETTINGS['API_ENDPOINT']")
+  api_endpoint: 'api/things'
 };
