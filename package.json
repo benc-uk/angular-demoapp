@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "prod": "ng build --prod --aot=false",
+    "build-prod": "ng build --prod",
+    "build-dev": "ng build --dev --output-path dist-dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
