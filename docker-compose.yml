@@ -1,27 +1,16 @@
 version: "3"
 
 services:
-  # Container running the API
-  # Note. IP & port needs to be accessable by end clients / users   
-  api:
-    image: bencuk/angular-demoapp-api
-    build: ./api
-    ports:
-    - "${API_PORT}:8080"
-    environment: 
-    - APPSETTING_STORAGE_ACCOUNT=${APPSETTING_STORAGE_ACCOUNT}
-    - APPSETTING_STORAGE_KEY=${APPSETTING_STORAGE_KEY}
-    networks:
-     - frontend
   # Container serving the Angular app from Node
-  app:
+  app-server:
     image: bencuk/angular-demoapp
     build: .
     ports:
     - "3000:3000"
     environment:
-    # Endpoint here is the container above, but from users 
-    - APPSETTING_API_ENDPOINT=http://${API_HOST}:${API_PORT}/things
+    # These settings tell the API how to access the Azure Storage account
+    - APPSETTING_STORAGE_ACCOUNT=${APPSETTING_STORAGE_ACCOUNT}
+    - APPSETTING_STORAGE_KEY=${APPSETTING_STORAGE_KEY}
     networks:
      - frontend
 networks: 

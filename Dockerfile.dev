@@ -1,6 +1,6 @@
 FROM node:6-alpine
-ARG DISTDIR=dist
-ARG MODE=production
+ARG DISTDIR=dist-dev
+ARG MODE=development
 
 WORKDIR /usr/src/app
 

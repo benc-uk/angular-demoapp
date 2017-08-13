@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  # Container serving the Angular app from Node
+  app-server:
+    image: bencuk/angular-demoapp:dev
+    build: .
+    ports:
+    - "3000:3000"
+    networks:
+     - frontend
+networks: 
+  frontend:
