@@ -2,31 +2,24 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "angularSiteName": {
+    "siteName": {
       "type": "string",
       "metadata": {
         "description": "Name of the Azure Web app hosting the Angular site"
-      }
-    },
-    "apiSiteName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Azure Web app hosting the API backend site"
       }
     },
     "appSizingTier": {
       "type": "string",
       "defaultValue": "B1",
       "metadata": {
-        "description": "Size/SKU of shared app service plan for both front & back end Web Apps"
+        "description": "Size/SKU of service plan"
       }
     }
   },
   "variables": {
     "servicePlanName": "app-plan",
     "storageAcctName": "[uniqueString(resourceGroup().name)]",
-    "appServiceInstances": 1,
-    "nodeVersion": "6.9.1"
+    "appServiceInstances": 1
   },
   "resources": [
     {
@@ -42,35 +35,8 @@
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2015-08-01",
+      "name": "[parameters('siteName')]",
       "kind": "app",
-      "name": "[parameters('angularSiteName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-        "siteConfig": {
-          "appSettings": [
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "[variables('nodeVersion')]"
-            },
-            {
-              "name": "API_ENDPOINT",
-              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
-            }
-          ]
-        }
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]",
-        "[concat('Microsoft.Web/sites/', parameters('apiSiteName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "2015-08-01",
-      "name": "[parameters('apiSiteName')]",
-      "kind": "api",
       "location": "[resourceGroup().location]",
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
@@ -82,22 +48,23 @@
           },
           "appSettings": [
             {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "[variables('nodeVersion')]"
-            },
-            {
               "name": "STORAGE_ACCOUNT",
               "value": "[variables('storageAcctName')]"
             },
             {
               "name": "STORAGE_KEY",
-              "value": "[listKeys(variables('storageAcctName'), '2015-05-01-preview').key1]"
+              "value": "[listKeys(variables('storageAcctName'),'2015-05-01-preview').key1]"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.11.1"
             }
           ]
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+         "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
+         "[resourceId('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]"
       ]
     },
     {
@@ -113,9 +80,5 @@
     }
   ],
   "outputs": {
-    "websiteUrl": {
-      "type": "string",
-      "value": "[concat('http://', reference(parameters('angularSiteName')).hostNames[0])]"
-    }
   }
 }

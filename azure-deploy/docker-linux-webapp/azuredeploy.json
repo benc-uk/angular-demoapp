@@ -6,10 +6,6 @@
       "defaultValue": "angular-demosite",
       "type": "string"
     },
-    "apiSiteName": {
-      "defaultValue": "angular-demoapi",
-      "type": "string"
-    },
     "sitePlanSize": {
       "type": "string",
       "defaultValue": "B1",
@@ -27,7 +23,6 @@
     "servicePlanName": "linux-service-plan",
     "location": "westus",
     "storageAcctName": "[uniqueString(resourceGroup().name)]",
-    "apiImage": "bencuk/angular-demoapp-api",
     "appImage": "bencuk/angular-demoapp"
   },
   "resources": [
@@ -58,8 +53,8 @@
     },
     {
       "type": "Microsoft.Web/sites",
-      "kind": "api",
-      "name": "[parameters('apiSiteName')]",
+      "kind": "app",
+      "name": "[parameters('appSiteName')]",
       "apiVersion": "2015-08-01",
       "location": "[variables('location')]",
       "properties": {
@@ -68,7 +63,7 @@
           "appSettings": [
             {
               "name": "DOCKER_CUSTOM_IMAGE_NAME",
-              "value": "[variables('apiImage')]"
+              "value": "[variables('appImage')]"
             },
             {
               "name": "STORAGE_ACCOUNT",
@@ -84,32 +79,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAcctName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Web/sites",
-      "kind": "app",
-      "name": "[parameters('appSiteName')]",
-      "apiVersion": "2015-08-01",
-      "location": "[variables('location')]",
-      "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-        "siteConfig": {
-          "appSettings": [
-            {
-              "name": "DOCKER_CUSTOM_IMAGE_NAME",
-              "value": "[variables('appImage')]"
-            },
-            {
-              "name": "API_ENDPOINT",
-              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
-            }
-          ]
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-        "[resourceId('Microsoft.Web/sites', parameters('apiSiteName'))]"
       ]
     }
   ],

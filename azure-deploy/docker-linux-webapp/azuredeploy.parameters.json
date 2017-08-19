@@ -3,7 +3,6 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appSiteName":  {"value": "appsite234"},
-    "apiSiteName":  {"value": "apisite3234"},
     "sitePlanSize": {"value": "B1"}
   }
 }

@@ -2,23 +2,17 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "angularSiteName": {
+    "siteName": {
       "type": "string",
       "metadata": {
         "description": "Name of the Azure Web app hosting the Angular site"
-      }
-    },
-    "apiSiteName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Azure Web app hosting the API backend site"
       }
     },
     "appSizingTier": {
       "type": "string",
       "defaultValue": "B1",
       "metadata": {
-        "description": "Size/SKU of shared app service plan for both front & back end Web Apps"
+        "description": "Size/SKU of service plan"
       }
     }
   },
@@ -26,8 +20,7 @@
     "servicePlanName": "app-plan",
     "storageAcctName": "[uniqueString(resourceGroup().name)]",
     "appServiceInstances": 1,
-    "apiSourceRepo": "https://github.com/benc-uk/angular-demoapp.git",
-    "angularSourceRepo": "https://github.com/benc-uk/angular-server-azure.git"
+    "sourceRepo": "https://github.com/benc-uk/angular-demoapp.git"
   },
   "resources": [
     {
@@ -41,48 +34,21 @@
       }
     },
     {
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "2015-08-01",
-      "kind": "app",
-      "name": "[parameters('angularSiteName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
-        "siteConfig": {
-          "appSettings": [
-            {
-              "name": "API_ENDPOINT",
-              "value": "[concat('http://', parameters('apiSiteName'), '.azurewebsites.net/things')]"
-            }
-          ]
-        }
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]",
-        "[concat('Microsoft.Web/sites/', parameters('apiSiteName'))]"
-      ],
-      "resources": [
-        {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('angularSiteName'))]"
-          ],
-          "properties": {
-            "RepoUrl": "[variables('angularSourceRepo')]",
-            "branch": "master",
-            "IsManualIntegration": true
-          }
-        }
-      ]
-    },
+      "kind": "Storage",
+      "name": "[variables('storageAcctName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]"
+    },    
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2015-08-01",
-      "name": "[parameters('apiSiteName')]",
-      "kind": "api",
+      "name": "[parameters('siteName')]",
+      "kind": "app",
       "location": "[resourceGroup().location]",
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
@@ -103,13 +69,18 @@
             },
             {
               "name": "PROJECT",
-              "value": "api"
+              "value": "server-api"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.11.1"
             }
           ]
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+         "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
+         "[resourceId('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]"
       ],
       "resources": [
         {
@@ -117,36 +88,25 @@
           "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('apiSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
           ],
           "properties": {
-            "RepoUrl": "[variables('apiSourceRepo')]",
+            "RepoUrl": "[variables('sourceRepo')]",
             "branch": "master",
             "IsManualIntegration": true
           }
         }
       ]
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "sku": {
-        "name": "Standard_LRS",
-        "tier": "Standard"
-      },
-      "kind": "Storage",
-      "name": "[variables('storageAcctName')]",
-      "apiVersion": "2016-01-01",
-      "location": "[resourceGroup().location]"
     }
   ],
   "outputs": {
     "websiteUrl": {
       "type": "string",
-      "value": "[concat('http://', reference(parameters('angularSiteName')).hostNames[0])]"
+      "value": "[concat('http://', reference(parameters('siteName')).hostNames[0])]"
     },
     "credentialsCommand": {
       "type": "string",
-      "value": "[concat('az webapp deployment list-publishing-profiles --name \"', parameters('angularSiteName'), '\" --resource-group \"', resourceGroup().name, '\"')]"
+      "value": "[concat('az webapp deployment list-publishing-profiles --name \"', parameters('siteName'), '\" --resource-group \"', resourceGroup().name, '\"')]"
     }
   }
 }

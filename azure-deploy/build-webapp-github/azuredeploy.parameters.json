@@ -2,8 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "angularSiteName": {"value": "site339883"},
-    "apiSiteName":     {"value": "api339883"},
-    "appSizingTier":   {"value": "B1"}
+    "siteName":      { "value": "site339883" },
+    "appSizingTier": { "value": "B1" }
   }
 }

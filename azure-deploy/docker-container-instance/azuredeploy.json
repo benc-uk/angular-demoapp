@@ -5,17 +5,11 @@
     "appContainerName": {
       "type": "string",
       "defaultValue": "app-container"
-    },
-    "apiContainerName": {
-      "type": "string",
-      "defaultValue": "api-container"
     }
   },
   "variables": {
-    "apiPort": "8080",
-    "apiImage": "bencuk/angular-demoapp-api",
     "appPort": "3000",
-    "appImage": "bencuk/angular-demoapp",
+    "appImage": "bencuk/angular-demoapp:prod",
     "storageAcctName": "[uniqueString(resourceGroup().name)]"
   },
   "resources": [
@@ -31,7 +25,7 @@
       "location": "[resourceGroup().location]"
     },
     {
-      "name": "[parameters('apiContainerName')]",
+      "name": "[parameters('appContainerName')]",
       "type": "Microsoft.ContainerInstance/containerGroups",
       "apiVersion": "2017-08-01-preview",
       "location": "[resourceGroup().location]",
@@ -41,12 +35,12 @@
       "properties": {
         "containers": [
           {
-            "name": "[parameters('apiContainerName')]",
+            "name": "[parameters('appContainerName')]",
             "properties": {
-              "image": "[variables('apiImage')]",
+              "image": "[variables('appImage')]",
               "ports": [
                 {
-                  "port": "[variables('apiPort')]"
+                  "port": "[variables('appPort')]"
                 }
               ],
               "resources": {
@@ -74,52 +68,6 @@
           "ports": [
             {
               "protocol": "tcp",
-              "port": "[variables('apiPort')]"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "[parameters('appContainerName')]",
-      "type": "Microsoft.ContainerInstance/containerGroups",
-      "apiVersion": "2017-08-01-preview",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ContainerInstance/containerGroups', parameters('apiContainerName'))]"
-      ],
-      "properties": {
-        "containers": [
-          {
-            "name": "[parameters('appContainerName')]",
-            "properties": {
-              "image": "[variables('appImage')]",
-              "ports": [
-                {
-                  "port": "[variables('appPort')]"
-                }
-              ],
-              "resources": {
-                "requests": {
-                  "cpu": 1.0,
-                  "memoryInGb": 1.0
-                }
-              },
-              "environmentVariables": [
-                {
-                  "name": "APPSETTING_API_ENDPOINT",
-                  "value": "[concat('http://', reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('apiContainerName'))).ipAddress.ip, ':', variables('apiPort'), '/things')]"
-                }
-              ]
-            }
-          }
-        ],
-        "osType": "Linux",
-        "ipAddress": {
-          "type": "Public",
-          "ports": [
-            {
-              "protocol": "tcp",
               "port": "[variables('appPort')]"
             }
           ]
@@ -131,10 +79,6 @@
     "appUrl": {
       "type": "string",
       "value": "[concat( 'http://', reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('appContainerName'))).ipAddress.ip, ':', variables('appPort') )]"
-    },
-    "apiUrl": {
-      "type": "string",
-      "value": "[concat( 'http://', reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('apiContainerName'))).ipAddress.ip, ':', variables('apiPort') )]"
     }
   }
 }
