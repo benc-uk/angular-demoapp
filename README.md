@@ -10,53 +10,106 @@ The app demonstrates use of the following core aspects:
 - Express
 - Azure Table Storage
 
-This repo contains three codebases, all of which combine together to make up the complete app:
-- **Angular app** - The client/front end written in Angular Typescript and held in the [src folder](src)
-- **Server** - Simple Node.js server to host/serve the Angular index.html and JavaScript after they have been built. The source lives in the [server folder](https://github.com/benc-uk/angular-server-azure/tree/749094fb12a59bbd8f9b97021bb26f271dc12697) but is essentially static.  
-Note this is a git submodule, pulled in from this [external repo](https://github.com/benc-uk/angular-server-azure) which contains more details on how the server passes config settings from server side environmental variables to the client side Angular app.
-- **API backend** - The back end service written in Node.js and held in the [api folder](api). See the [README](api/README.md) there for more information
+This repo contains two main codebases, which combine together to make up the complete app:
+- **Angular app** - The Angular 4 client/frontend written in Typescript, generated via the Angular CLI and held in the [src folder](src)
+- **API and server** - The backend server written in Node.js using Express, this performs two functions:
+  - REST API which the Angular app makes calls to for all CRUD data operations
+  - Hosting the Angular app, serving *index.html* and associated static content to clients
 
 
-# Running The Angular Frontend
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.6. 
- - Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
- - Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod --aot=false` flag for a production build. For "reasons" AOT doesn't work with how the main app module is currently written.  
- Note running `npm run-script prod` will also build in production mode
+# Running Locally In Development Mode
+To run the app locally in development mode there are two options: 
+- Run `ng serve` to launch the Angular CLI dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- To run from the Node server, first run `npm run build-dev` to build the project in dev mode. The build artifacts will be stored in the `dist-dev` directory. Set the environmental variable `NODE_ENV` to `development`, then launch the server with the command `node server-api/server.js ./dist-dev` or from the **sever-api** folder run `npm run start-dev`. There is very little to be gained in running it locally in this fashion over using the `ng serve` method.
 
-> **Note.** When running in local development mode via `ng serve`, a running API instance is not required, instead a 'InMemoryDbService' is used to provide a dummy API. This is controlled by the environment configuration in [this folder](src/environments)
+In either case a in-memory database will be used, via an instance of **InMemoryDbService**, which also intercepts all API calls. This means that no Azure Storage account is required, and the app can be run totally standalone and offline
+ 
+# Deployment & Production Mode
+In order to deploy fully and run in production mode with the proper API backend you will need to carry out some steps to build & deploy. You will also need an [Azure Storage account](https://azure.microsoft.com/en-gb/services/storage/) and the access key for the account, the details of setting that up are outside the scope of this readme.
 
-
-# Running The API 
-See the [API readme](api/README.md) for more information on running this component.  
-> **Note.** In order to run the API you will first need an Azure Storage account and provide the name and the access key as configuration (see below) 
-
-
-# Deployment Configuration
-When deployed there are three main configuration settings to be aware of:  
-*API Component:*
+### Configuration
+There are two main configuration parameters both relating to the Azure Storage account where the data is held in NOSQL [Table Storage](https://azure.microsoft.com/en-gb/services/storage/tables/). These are:
 - `APPSETTING_STORAGE_ACCOUNT` - Azure storage account name
-- `APPSETTING_STORAGE_KEY` - Access key to the storage account  
+- `APPSETTING_STORAGE_KEY` - Access key to the storage account
 
-*App Component:*
-- `APPSETTING_API_ENDPOINT` - Full URL of API endpoint, e.g. `http://my-api-host:8080/things`
+The server will load these from environmental variables. When running locally [dotenv](https://www.npmjs.com/package/dotenv) can be used, which uses a file called `.env` with in key=value format, one line per key/value pair.  
+When deployed in Azure App service, you can set these values securely as [App Settings](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-configure). When doing so you do not need to include the "APPSETTING_" prefix
 
-In all cases these configuration parameters are set via standard system environmental variables. You can also use a `.env` file which will be picked up.  
-Note. The `APPSETTING_` prefix is designed to allow configuration when running in Azure App Services
+### Angular Build
+Simply run `ng build --prod` or `npm run build-prod` to build the Angular app to the standard `dist` output directory.
 
+### Packaging with Server 
+Putting the app together for deployment requires the following steps:
+- Copy the `server-api/server.js`, `server-api/initdata.json` & `server-api/package.json` to the root of where your app will run or be deployed
+- From this app deployment root directory, run `npm install` to pull down dependencies for the server. Note. We are not interested in the `package.json` that lives at the root of this repo, that is for the Angular dev environment
+- The Node/Express server will serve the contents of the `public/` folder as static content so copy the built Angular app there. Recursively copy the contents of the `dist\*` directory to the app deployment root `public` subdirectory
+
+The contents of the deployed app folder should look as follows
+```
+/
+  node_modules/
+  server.js
+  package.json
+  public/
+    assets/
+    index.html
+    <various js & css files>
+```
+
+### Running 
+Assuming the configuration environmental variables described above are set and also `NODE_ENV` is set to `production` run the server from the app deployment directory with `npm start`
+
+### Database/Azure Table Initialization
+After deployment the Azure Table will need to be created & populated with data, or the API and app will not function. When you visit the site you will probably see the Angular app load but just get a spinner.  
+Initializing the db can be done with an API call hitting the following URL `http://<app-srv-address:3000/api/initdb` and waiting approx 10 seconds. You can call this at anytime to reset the data to starting state. The starting data is held in `server-api/initdata.json`
+
+---
 
 # Docker
-Docker images containing pre-built versions of the app and API are on Dockerhub
+A Docker images containing pre-built versions of the app are available on Dockerhub
 - [https://hub.docker.com/r/bencuk/angular-demoapp/](https://hub.docker.com/r/bencuk/angular-demoapp/)
-- [https://hub.docker.com/r/bencuk/angular-demoapp-api/](https://hub.docker.com/r/bencuk/angular-demoapp-api/)
 
-Dockerfile for the main app is [here](Dockerfile), the Dockerfile for the API is [here](api/Dockerfile).  
-Also provided is a [docker-compose.yml](docker-compose.yml) which can be used to build and run the two containers. It expects four environmental variables `APPSETTING_STORAGE_ACCOUNT`, `APPSETTING_STORAGE_KEY`, `API_HOST`, `API_PORT` (When running locally in Docker, API_HOST will be 'localhost' and API_PORT will be '8080'). Easy way of setting these with Docker Compose is via a `.env` file.
+> Note. Two sets of tags are provided, the `:latest` and `:prod` tags are the app built in production mode (requiring an Azure Storage account), `:dev` tag is built in development mode (so works standalone)
 
+[Dockerfile](Dockerfile) and [Docker Compose](docker-compose.yml) files are provided with this repo, the files suffixed with `dev` build/run the app in development mode, the unsuffixed files build/run in prod mode.  
+Note. The Dockerfile expects that the `dist` / `dist-dev` output directory has been created (via the `ng build` step) **prior** to running the `docker build`
+
+Running the Docker container from the production image requires `APPSETTING_STORAGE_ACCOUNT`, `APPSETTING_STORAGE_KEY` environmental variables passed to the container at start or it will fail. The same variables are expected by the `docker-compose.yml` file, which can be set via a `.env` file 
+
+---
 
 # Azure Templates
 Four Azure Resource Manager (ARM) templates are provided, for a range of deployment scenarios. See the [template readme](azure-deploy/README.md) for more details
 
 
 # Example Architecture (in Azure) 
-The overall deployment of the application looks as follows. This shows the application deployed into two Azure App Service applications, however when running in containers the overall topology is the same.
-![diagram](https://user-images.githubusercontent.com/14982936/28728279-f3967b24-73bf-11e7-9db4-fc5d41c6fda8.png)
+The overall deployment of the application looks as follows. This shows the application deployed into an Azure App Service web app, however when running in containers the overall topology is broadly the same.
+![diagram](https://user-images.githubusercontent.com/14982936/29485641-180a91ca-84cd-11e7-8140-de181db0ea80.png)
+
+
+# API Details
+Details of the API part of the backend server are here, this is only used when in production mode (e.g. `NODE_ENV` == 'production')
+
+### Data Storage - Azure Table
+All data is persisted using Azure Storage in an "Azure Storage Table" (or Azure Table). The table is named `thingTable` and the partition key for all entities is `things`
+
+### REST API Specification
+- `GET /api/things` - Return a list of all things
+- `GET /api/things/123` - Return a single thing with id (RowKey) 123
+- `GET /api/things/search/foo` - Return a list of things where the name matches 'foo'
+- `PUT /api/things/123` - Update a single thing, body should be JSON object corresponding to the thing model (see below). RowKey **should** be supplied
+- `DELETE /api/things/123` - Delete a single thing, with id (RowKey) 123
+- `POST /api/things` - Create a new thing, body should be JSON object corresponding to the thing model (see below). RowKey should **not** be supplied
+- `GET /api/initdb` - Create or reinitialize the database held in Azure Table storage. This is asynchronous, completion might take up to 40 seconds in background
+- `GET /api/status` - Report on status of the API, outputs some debug info and lists all available tables in the storage account
+
+### Thing Data Model
+```
+Thing {
+  RowKey: number;
+  name:   string;
+  photo:  string;
+  likes:  number;
+  desc:   string;
+}
+```
