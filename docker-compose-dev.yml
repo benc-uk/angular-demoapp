@@ -2,9 +2,11 @@ version: "3"
 
 services:
   # Container serving the Angular app from Node
-  app-server:
+  app-server-dev:
     image: bencuk/angular-demoapp:dev
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
     - "3000:3000"
     networks:
