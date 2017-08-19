@@ -1,13 +1,13 @@
 {
-  "name": "angular-demoapp-api",
-  "version": "1.0.1",
-  "description": "API backend for angular-demoapp",
+  "name": "angular-demoapp-server",
+  "version": "2.0.0",
+  "description": "Server and API backend for angular-demoapp",
   "main": "server.js",
   "engines": {"node": "6.9.1"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "start-dev": "node server.js ../dist"
+    "start-dev": "node server.js ../dist-dev"
   },
   "repository": {
     "type": "git",
