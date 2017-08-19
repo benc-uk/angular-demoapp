@@ -20,6 +20,8 @@ import { environment } from "../environments/environment";
 export class AppHttpModule {
 }
 
+// Production mode aware - so that a real HTTP requests (via XHR) are sent through to a "real" API only when in prod mode
+// When in dev mode, all HTTP requests are intercepted by the in memory service
 export function httpFactory(injector: Injector, browser: BrowserXhr, xsrf: XSRFStrategy, options: ResponseOptions) {
   if (environment.production) {
     return new XHRBackend(browser, options, xsrf);

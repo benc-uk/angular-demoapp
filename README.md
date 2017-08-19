@@ -27,7 +27,9 @@ To run the app locally in development mode there are two options:
 In either case a in-memory database will be used, via an instance of **InMemoryDbService**, which also intercepts all API calls. This means that no Azure Storage account is required, and the app can be run totally standalone and offline
  
 # Deployment & Production Mode
-In order to deploy fully and run in production mode with the proper API backend you will need to carry out some steps to build & deploy. You will also need an [Azure Storage account](https://azure.microsoft.com/en-gb/services/storage/) and the access key for the account, the details of setting that up are outside the scope of this readme.
+In order to deploy fully and run in production mode with the proper API backend you will need to carry out some steps to build & deploy. You will also need an [Azure Storage account](https://azure.microsoft.com/en-gb/services/storage/) and the access key for the account, the details of setting that up are outside the scope of this readme.  
+
+The Angular app is "production mode aware" - so that a real HTTP requests (via XHR) are sent through to a "real" external service only when in prod mode. When in dev mode, all HTTP requests are intercepted by the an memory service. This is handled by the [**AppHttpModule**](/src/app/app-http.module.ts) module
 
 ### Configuration
 There are two main configuration parameters both relating to the Azure Storage account where the data is held in NOSQL [Table Storage](https://azure.microsoft.com/en-gb/services/storage/tables/). These are:
