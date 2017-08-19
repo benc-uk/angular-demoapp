@@ -16,6 +16,8 @@ This repo contains two main codebases, which combine together to make up the com
   - REST API which the Angular app makes calls to for all CRUD data operations
   - Hosting the Angular app, serving *index.html* and associated static content to clients
 
+### Screenshot of running application
+![screenshot](https://user-images.githubusercontent.com/14982936/29248453-69f0f34c-8010-11e7-85bc-00357a80cd80.png)
 
 # Running Locally In Development Mode
 To run the app locally in development mode there are two options: 
