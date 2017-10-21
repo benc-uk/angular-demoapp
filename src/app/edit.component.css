@@ -17,3 +17,10 @@ mat-card-content p {
   color: #ee3333;
   font-style: italic;
 }
+textarea {
+  height: 30vh;
+  width: 90vw;
+}
+.edit {
+  width: 50%;
+}

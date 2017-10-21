@@ -2,11 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpModule }    from '@angular/http';
+import { HttpClientModule }    from '@angular/common/http';
 
 // Imports for loading & configuring the in-memory web api
 //import { HttpInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { AppHttpModule }  from './app-http.module';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemService } from './in-mem-api';
 
 // Flexlayout
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -38,8 +39,8 @@ import { ConfirmDialogComponent } from './confirmdialog.component';
     BrowserModule,
     FormsModule,
     RoutingModule,
-    HttpModule,
-    AppHttpModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemService, { passThruUnknownUrl: true }),
     MaterialModule, FlexLayoutModule ],
   providers: [ ThingService ],
   bootstrap: [ AppComponent ], 

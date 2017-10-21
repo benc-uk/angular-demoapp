@@ -4,18 +4,20 @@
     <h1 *ngIf="thing.name">Edit Existing</h1>
     <h1 *ngIf="!thing.name">Add New</h1>
 
-    <mat-input-container>
+    <mat-form-field class="edit">
       <input required #name="ngModel" matInput [(ngModel)]="thing.name" placeholder="Name" value="{{thing.name}}">
-    </mat-input-container><br/>
-    <mat-input-container>
+    </mat-form-field><br/>
+    <mat-form-field class="edit">
       <input required type="number" min="0" step="1" #likes="ngModel" matInput [(ngModel)]="thing.likes" placeholder="Likes" value="{{thing.likes}}">
-    </mat-input-container><br/>
-    <mat-input-container>
+    </mat-form-field><br/>
+    <mat-form-field class="edit">
       <textarea matInput [(ngModel)]="thing.desc" placeholder="Description" value="{{thing.desc}}">{{thing.desc}}</textarea>
-    </mat-input-container><br/>
-    <mat-select [(ngModel)]="thing.photo" placeholder="Photo">
-      <mat-option *ngFor="let photo of photos" [value]="photo">{{photo}}</mat-option>
-    </mat-select>   
+    </mat-form-field><br/>
+    <mat-form-field  class="edit">
+      <mat-select [(ngModel)]="thing.photo" placeholder="Photo">
+        <mat-option *ngFor="let photo of photos" [value]="photo">{{photo}}</mat-option>
+      </mat-select>   
+    </mat-form-field>
 
     <br/><br/><br/>
 

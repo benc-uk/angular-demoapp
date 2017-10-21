@@ -1,7 +1,6 @@
-import 'rxjs/add/operator/toPromise';
+import { Observable } from "rxjs/Observable";
 import { Injectable } from '@angular/core';
-import { Headers } from '@angular/http';
-import { Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Thing } from './thing';
 import { environment } from '../environments/environment';
@@ -11,59 +10,34 @@ export class ThingService {
 
   // URL to web api - can be remote or local in memory 
   private apiUrl = environment.api_endpoint;
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  list(): Promise<Thing[]> {
-    //console.log(`### API GET ${this.apiUrl}`)
-    return this.http.get(this.apiUrl)
-      .toPromise()
-      .then(response => response.json().data as Thing[])
-      .catch(this.handleError);
+  list(): Observable<Thing[]> {
+    console.log(`### API GET ${this.apiUrl}`);
+    return this.http.get<Thing[]>(`/api/things`);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  get(RowKey: number): Observable<Thing> {
+    return this.http.get<Thing>(`${this.apiUrl}/${RowKey}`);
   }
 
-  get(RowKey: number): Promise<Thing> {
-    const url = `${this.apiUrl}/${RowKey}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data as Thing)
-      .catch(this.handleError);
+  update(thing: Thing): Observable<Thing> {
+    return this.http.put<Thing>(`${this.apiUrl}/${thing.RowKey}`, thing, {headers:this.headers});
   }
 
-  update(Thing: Thing): Promise<Thing> {
-    const url = `${this.apiUrl}/${Thing.RowKey}`;
-    return this.http
-      .put(url, JSON.stringify(Thing), { headers: this.headers })
-      .toPromise()
-      .then(() => Thing)
-      .catch(this.handleError);
-  }
-
-  create(Thing: Thing): Promise<Thing> {
+  create(thing: Thing): Observable<Thing> {
     // Slightly cludgy - when in dev using InMemoryDbService, we fudge IDs on new Things
     if(!environment.production) {
       var rand_id = Math.floor((Math.random() * 1000000) + 1);
-      Thing.RowKey = rand_id;
-      Thing['id'] = rand_id;
+      thing.RowKey = rand_id;
+      thing['id'] = rand_id;
     }
-    return this.http
-      .post(this.apiUrl, JSON.stringify(Thing), { headers: this.headers })
-      .toPromise()
-      .then(res => res.json().data as Thing)
-      .catch(this.handleError);
+    return this.http.post<Thing>(`${this.apiUrl}/${thing.RowKey}`, thing, {headers:this.headers});
   }
 
-  delete(id: number): Promise<void> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url, { headers: this.headers })
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
+  delete(id: number): Observable<Object> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {headers:this.headers});
   }
 }

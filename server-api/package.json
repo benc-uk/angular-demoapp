@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "description": "Server and API backend for angular-demoapp",
   "main": "server.js",
-  "engines": {"node": "6.9.1"},
+  "engines": {
+    "node": "6.9.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",

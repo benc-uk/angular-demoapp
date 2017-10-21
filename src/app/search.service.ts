@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Thing } from './thing';
 import { environment } from '../environments/environment';
@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 @Injectable()
 export class SearchService {
 
-   constructor(private http: Http) { }
+   constructor(private http: HttpClient) { }
 
    search(term: string): Observable<Thing[]> {
       var query_url = "";
@@ -20,6 +20,6 @@ export class SearchService {
       }
       return this.http
          .get(query_url)
-         .map(response => response.json().data as Thing[]);
+         .map(response => response as Thing[]);
    }
 }

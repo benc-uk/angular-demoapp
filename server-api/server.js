@@ -45,7 +45,7 @@ app.get('/api/things', function (req, res) {
       if (!error) {
          result.entries.map(thing => flattenObject(thing));
          res.type('application/json');
-         res.send({ data: result.entries });
+         res.send( result.entries );
       }
    });
 });
@@ -55,7 +55,7 @@ app.get('/api/things/:id', function (req, res) {
    tablesvc.retrieveEntity(TABLE_NAME, TABLE_PKEY, req.params.id, function (error, result, response) {
       if (!error) {
          res.type('application/json');
-         res.send({ data: flattenObject(result) });
+         res.send(flattenObject(result) );
       }
    });
 });
@@ -67,7 +67,7 @@ app.put('/api/things/:id', function (req, res) {
    tablesvc.replaceEntity(TABLE_NAME, thing, function (error, result, response) {
       if (!error) {
          res.type('application/json');
-         res.send( {message: `Thing ${thing.RowKey} was deleted OK`} );
+         res.send( {message: `Thing ${thing.RowKey} was updated OK`} );
       }
    });
 });
@@ -158,7 +158,7 @@ app.get('/api/things/search/:q', function (req, res) {
             }
          }
          res.type('application/json');
-         res.send({ data: srch_results });
+         res.send(srch_results);
       }
    });
 });

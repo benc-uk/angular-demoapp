@@ -18,6 +18,9 @@ export class ListComponent implements OnInit {
     private service: ThingService) { }
 
   ngOnInit(): void {
-    this.service.list().then(g => this.things = g);
+    this.service.list().subscribe(
+      data => this.things = data,
+      err => console.log(err)
+    );
   }
 }

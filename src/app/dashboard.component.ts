@@ -16,16 +16,19 @@ export class DashboardComponent implements OnInit {
   constructor(private service: ThingService, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.service.list()
-      .then(g => this.things = g.sort( function(a, b){return b.likes - a.likes} ))
-      .then(g => this.things = g.splice(0,6))
+    this.service.list().subscribe(
+      data => {
+        this.things = data.sort( function(a, b){return b.likes - a.likes} );
+        this.things = this.things.splice(0,6);
+      },
+      err => {console.log(err)})
   }
   
   like(thing: Thing, event): void {
     let snackBarRef = this.snackBar.open(`Yeah, ${thing.name} is great!`, null, {duration: 2000});
 
     thing.likes++;
-    this.service.update(thing);
+    this.service.update(thing).subscribe(()=>{}, err => console.log(err));
     event.stopPropagation();
   }
   

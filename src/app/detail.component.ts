@@ -42,7 +42,7 @@ export class DetailComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.snackBar.open(`Oh no, ${this.thing.name} Deleted!`, null, {duration: 2000});
-        this.service.delete(this.thing.RowKey).then(() => this.goBack());
+        this.service.delete(this.thing.RowKey).subscribe(() => this.goBack(), err => console.log(err));
       }
     });
   }
@@ -55,6 +55,6 @@ export class DetailComponent implements OnInit {
     let snackBarRef = this.snackBar.open(`Yeah, ${thing.name} is great!`, null, {duration: 2000});
 
     thing.likes++;
-    this.service.update(thing);
+    this.service.update(thing).subscribe();
   }
 }

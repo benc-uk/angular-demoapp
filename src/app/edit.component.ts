@@ -52,9 +52,9 @@ export class EditComponent implements OnInit {
 
   save(): void {
     if(this.thing.RowKey) {
-      this.service.update(this.thing).then(() => this.goBack());
+      this.service.update(this.thing).subscribe(() => this.goBack(), err => console.log(err));
     } else {
-      this.service.create(this.thing).then(() => this.goBack());
+      this.service.create(this.thing).subscribe(() => this.goBack(), err => console.log(err));
     }
   }
 
