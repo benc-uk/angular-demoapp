@@ -1,15 +1,15 @@
-md-card  {
+mat-card  {
   width: 80%;
   margin-left: 10px;
   margin-top: 20px;
   max-width: 800px;
 }
-md-card-title {
+mat-card-title {
   font-size: 140% !important;
 }
-md-card-content {
+mat-card-content {
   font-size: 110%;
 }
-md-card-content p {
+mat-card-content p {
   font-style: italic;
 }

@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers } from '@angular/http';
+import { Http } from '@angular/http';
 
 import { Thing } from './thing';
 import { environment } from '../environments/environment';

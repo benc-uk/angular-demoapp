@@ -1,17 +1,17 @@
 <div *ngIf="thing">
-  <md-card class="detail-card">
-    <md-card-header>
+  <mat-card class="detail-card">
+    <mat-card-header>
       <h1>{{thing.name}}</h1>
-    </md-card-header>
-    <img md-card-image src='assets/{{thing.photo}}'>
-    <md-card-content>
+    </mat-card-header>
+    <img mat-card-image src='assets/{{thing.photo}}'>
+    <mat-card-content>
         <div>{{thing.likes}} likes</div>
         <p>{{thing.desc}}</p>
-    </md-card-content>
-    <md-card-actions>
-      <button md-button (click)="like(thing)"><md-icon>favorite</md-icon>&nbsp; LIKE</button>
-      <button md-button [routerLink]="['/edit', thing.RowKey]"><md-icon>mode_edit</md-icon>&nbsp; EDIT</button>
-      <button md-button (click)="delete()"><md-icon>delete_forever</md-icon>&nbsp; DELETE</button>
-    </md-card-actions>
-  </md-card>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="like(thing)"><mat-icon>favorite</mat-icon>&nbsp; LIKE</button>
+      <button mat-button [routerLink]="['/edit', thing.RowKey]"><mat-icon>mode_edit</mat-icon>&nbsp; EDIT</button>
+      <button mat-button (click)="delete()"><mat-icon>delete_forever</mat-icon>&nbsp; DELETE</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

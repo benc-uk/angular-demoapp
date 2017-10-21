@@ -1,4 +1,4 @@
-md-list-item {
+mat-list-item {
   cursor: pointer;
   height: 200%;
   padding: 10px;
@@ -12,6 +12,6 @@ h1 {
   width:100%
 }
 
-.spinner md-progress-spinner {
+.spinner mat-progress-spinner {
   margin:0 auto;
 }

@@ -1,18 +1,18 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutWrap="wrap" >
   <div fxFlex *ngFor="let thing of things">
-    <md-card  class="thing-card mat-elevation-z6" [routerLink]="['/detail', thing.RowKey]">
-      <md-card-header>
-        <md-card-title>{{thing.name}}</md-card-title>
+    <mat-card  class="thing-card mat-elevation-z6" [routerLink]="['/detail', thing.RowKey]">
+      <mat-card-header>
+        <mat-card-title>{{thing.name}}</mat-card-title>
         <span class="fill-space"></span>
-        <button md-button (click)="like(thing, $event)"><md-icon>favorite</md-icon> {{thing.likes}} </button>
-      </md-card-header>
-      <img md-card-image src='assets/{{thing.photo}}'>
-    </md-card>
+        <button mat-button (click)="like(thing, $event)"><mat-icon>favorite</mat-icon> {{thing.likes}} </button>
+      </mat-card-header>
+      <img mat-card-image src='assets/{{thing.photo}}'>
+    </mat-card>
   </div>
 
   <!-- loading spinner -->
   <div class="spinner" *ngIf="things.length == 0">
-    <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
 </div>
 

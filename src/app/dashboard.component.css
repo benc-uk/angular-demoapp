@@ -3,7 +3,7 @@
   margin: 6px;
 }
 
-.thing-card md-card-title {
+.thing-card mat-card-title {
   font-size: 110%;
 }
 
@@ -20,16 +20,16 @@
   flex: 1 1 auto;
 }
 
-md-card-header button {
+mat-card-header button {
   top: -10px;
   float:right;
 }
 
-md-card-header .material-icons {
+mat-card-header .material-icons {
   color:#EC644B;
 }
 
-md-card-title {
+mat-card-title {
   width:20vw;
   max-width:20vw;
   white-space:nowrap;
@@ -40,6 +40,6 @@ md-card-title {
 .spinner {
   width:100%
 }
-.spinner md-progress-spinner {
+.spinner mat-progress-spinner {
   margin:0 auto;
 }

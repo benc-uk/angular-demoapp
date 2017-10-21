@@ -1,4 +1,4 @@
-import { InMemoryDbService, InMemoryBackendService } from 'angular-in-memory-web-api';
+import { InMemoryWebApiModule, HttpBackendService } from 'angular-in-memory-web-api';
 import { ResponseOptions, XSRFStrategy, BrowserXhr, XHRBackend, HttpModule } from "@angular/http";
 import { Injector, NgModule } from "@angular/core";
 import { environment } from "../environments/environment";
@@ -26,14 +26,14 @@ export function httpFactory(injector: Injector, browser: BrowserXhr, xsrf: XSRFS
   if (environment.production) {
     return new XHRBackend(browser, options, xsrf);
   } else {
-    return new InMemoryBackendService(injector, new InMemoryThingService(), {
-      // the configuration object
+    return new HttpBackendService(injector, new InMemoryThingService(), {
+       dataEncapsulation: true 
     });
   }
 }
 
 // Note we need both id and RowKey, real API doesn't use id only RowKey
-export class InMemoryThingService implements InMemoryDbService {
+export class InMemoryThingService implements InMemoryWebApiModule {
   createDb() {
     const things = [
       { id: 10, RowKey: 10, name: 'ZX Spectrum', photo: 'zx-spectrum.jpg', likes: 11, desc: 'The ZX Spectrum is an 8-bit personal home computer released in the United Kingdom in 1982 by Sinclair Research. It was launched as the ZX Spectrum by Sinclair to highlight the machine\'s colour display, compared with the black and white of its predecessor, the ZX81. The Spectrum was released as eight different models, ranging from the entry level with 16 KB RAM released in 1982 to the ZX Spectrum +3 with 128 KB RAM and built in floppy disk drive in 1987; together they sold in excess of 5 million units worldwide' },

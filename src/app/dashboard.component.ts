@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { Thing } from './thing';
 import { ThingService } from './thing.service';
@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
 
   things: Thing[] = [];
 
-  constructor(private service: ThingService, public snackBar: MdSnackBar) { }
+  constructor(private service: ThingService, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.service.list()

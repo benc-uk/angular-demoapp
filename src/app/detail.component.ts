@@ -2,8 +2,8 @@ import 'rxjs/add/operator/switchMap';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-import { MdDialog } from '@angular/material';
-import { MdSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Thing } from './thing';
@@ -23,8 +23,8 @@ export class DetailComponent implements OnInit {
     private service: ThingService,
     private route: ActivatedRoute,
     private location: Location,
-    private dialog: MdDialog,
-    public snackBar: MdSnackBar
+    private dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {

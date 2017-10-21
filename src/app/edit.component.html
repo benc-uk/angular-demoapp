@@ -1,21 +1,21 @@
 <div *ngIf="thing">
-  <md-card class="detail-card">
+  <mat-card class="detail-card">
 
     <h1 *ngIf="thing.name">Edit Existing</h1>
     <h1 *ngIf="!thing.name">Add New</h1>
 
-    <md-input-container>
-      <input required #name="ngModel" mdInput [(ngModel)]="thing.name" placeholder="Name" value="{{thing.name}}">
-    </md-input-container><br/>
-    <md-input-container>
-      <input required type="number" min="0" step="1" #likes="ngModel" mdInput [(ngModel)]="thing.likes" placeholder="Likes" value="{{thing.likes}}">
-    </md-input-container><br/>
-    <md-input-container>
-      <textarea mdInput [(ngModel)]="thing.desc" placeholder="Description" value="{{thing.desc}}">{{thing.desc}}</textarea>
-    </md-input-container><br/>
-    <md-select [(ngModel)]="thing.photo" placeholder="Photo">
-      <md-option *ngFor="let photo of photos" [value]="photo">{{photo}}</md-option>
-    </md-select>   
+    <mat-input-container>
+      <input required #name="ngModel" matInput [(ngModel)]="thing.name" placeholder="Name" value="{{thing.name}}">
+    </mat-input-container><br/>
+    <mat-input-container>
+      <input required type="number" min="0" step="1" #likes="ngModel" matInput [(ngModel)]="thing.likes" placeholder="Likes" value="{{thing.likes}}">
+    </mat-input-container><br/>
+    <mat-input-container>
+      <textarea matInput [(ngModel)]="thing.desc" placeholder="Description" value="{{thing.desc}}">{{thing.desc}}</textarea>
+    </mat-input-container><br/>
+    <mat-select [(ngModel)]="thing.photo" placeholder="Photo">
+      <mat-option *ngFor="let photo of photos" [value]="photo">{{photo}}</mat-option>
+    </mat-select>   
 
     <br/><br/><br/>
 
@@ -30,10 +30,10 @@
       </div>
     </div>
 
-    <md-card-actions>
-      <button color="primary" md-button (click)="goBack()"><md-icon>clear</md-icon>&nbsp; CANCEL</button>
-      <button *ngIf="!name.errors && !likes.errors" color="primary" md-raised-button  (click)="save()"><md-icon>check</md-icon>&nbsp; SAVE</button>
-    </md-card-actions>   
+    <mat-card-actions>
+      <button color="primary" mat-button (click)="goBack()"><mat-icon>clear</mat-icon>&nbsp; CANCEL</button>
+      <button *ngIf="!name.errors && !likes.errors" color="primary" mat-raised-button  (click)="save()"><mat-icon>check</mat-icon>&nbsp; SAVE</button>
+    </mat-card-actions>   
 
-  </md-card>
+  </mat-card>
 </div>

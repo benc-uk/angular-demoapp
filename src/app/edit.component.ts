@@ -2,8 +2,9 @@ import 'rxjs/add/operator/switchMap';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-import { MdDialog } from '@angular/material';
-import { MdSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
+import { MatInputModule } from '@angular/material';
 
 import { Thing } from './thing';
 import { ThingService } from './thing.service';
@@ -23,8 +24,8 @@ export class EditComponent implements OnInit {
     private service: ThingService,
     private route: ActivatedRoute,
     private location: Location,
-    private dialog: MdDialog,
-    public snackBar: MdSnackBar
+    private dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) { 
       for (var i = 1; i <= 11; i++) { 
         // This super rubbish, maybe add file upload features later

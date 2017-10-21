@@ -16,7 +16,7 @@
   width: 2em;
 }
 
-md-sidenav-container {
+mat-sidenav-container {
    position: fixed;
    height: 100%;
    min-height: 100%;

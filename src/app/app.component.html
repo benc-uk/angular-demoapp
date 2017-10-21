@@ -1,24 +1,24 @@
-<md-sidenav-container fullscreen>
+<mat-sidenav-container fullscreen>
 
-  <md-toolbar color="primary" class="mat-elevation-z5">
+  <mat-toolbar color="primary" class="mat-elevation-z5">
     <!-- non mobile -->
     <div fxHide.xs fxFlex fxLayout="row">
       <div class='navicon'><img src='../assets/angular.svg'></div>
-      <button md-button routerLink="/dashboard">
-         <md-icon> favorite </md-icon>
+      <button mat-button routerLink="/dashboard">
+         <mat-icon> favorite </mat-icon>
          <span> DASHBOARD </span>
        </button>
-      <button md-button routerLink="/list">
-         <md-icon> pageview </md-icon>
+      <button mat-button routerLink="/list">
+         <mat-icon> pageview </mat-icon>
          <span> LIST </span>
        </button>
 
       <span class="fill-space"></span>
-      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <md-icon>build</md-icon> dev mode &nbsp;&nbsp;</span>
+      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <mat-icon>build</mat-icon> dev mode &nbsp;&nbsp;</span>
 
       <thing-search></thing-search>
 
-      <a target="_new" md-button href='https://github.com/benc-uk/angular-demoapp'>
+      <a target="_new" mat-button href='https://github.com/benc-uk/angular-demoapp'>
         <img class='navicon-sm' src='../assets/github.svg'>
         <span> GITHUB </span>
       </a>
@@ -26,26 +26,26 @@
 
     <!-- mobile -->
     <div xShow.xs fxHide.gt-xs>
-      <button md-icon-button [mdMenuTriggerFor]="appMenu">
-        <md-icon>menu</md-icon>
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>menu</mat-icon>
       </button>
       <span> ANGULAR DEMOAPP </span>
-      <md-menu #appMenu="mdMenu" yPosition="below">
-        <button md-menu-item routerLink="/dashboard">
-          <md-icon> favorite </md-icon>
+      <mat-menu #appMenu="matMenu" yPosition="below">
+        <button mat-menu-item routerLink="/dashboard">
+          <mat-icon> favorite </mat-icon>
           <span> DASHBOARD </span>
         </button>
-        <button md-menu-item routerLink="/list">
-         <md-icon> pageview </md-icon>
+        <button mat-menu-item routerLink="/list">
+         <mat-icon> pageview </mat-icon>
          <span> LIST </span>
        </button>
-      </md-menu>
-      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <md-icon>build</md-icon> dev mode &nbsp;&nbsp;</span>
+      </mat-menu>
+      <span *ngIf="!env.production" style="font-style: italic">&nbsp;&nbsp; <mat-icon>build</mat-icon> dev mode &nbsp;&nbsp;</span>
     </div>
-  </md-toolbar>
+  </mat-toolbar>
 
   <div class='app-content'>
     <router-outlet></router-outlet>
   </div>
 
-</md-sidenav-container>
+</mat-sidenav-container>

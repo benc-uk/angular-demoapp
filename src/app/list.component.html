@@ -1,15 +1,15 @@
-<md-list>
-  <h3 md-subheader>All Items</h3>
-  <md-list-item class="thing-card mat-elevation-z2" *ngFor="let thing of things" [routerLink]="['/detail', thing.RowKey]">
-    <img md-list-avatar src='assets/{{thing.photo}}' style='' />
-    <h1 md-line>{{thing.name}}</h1>
-  </md-list-item>
-</md-list>
+<mat-list>
+  <h3 mat-subheader>All Items</h3>
+  <mat-list-item class="thing-card mat-elevation-z2" *ngFor="let thing of things" [routerLink]="['/detail', thing.RowKey]">
+    <img mat-list-avatar src='assets/{{thing.photo}}' style='' />
+    <h1 mat-line>{{thing.name}}</h1>
+  </mat-list-item>
+</mat-list>
 
 <div class="spinner" *ngIf="!things">
-  <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
   
 <div style="position: fixed; right: 4vw; bottom: 5vh">
-  <button md-fab [routerLink]="['/new']"><md-icon>add</md-icon></button>
+  <button mat-fab [routerLink]="['/new']"><mat-icon>add</mat-icon></button>
 </div>
