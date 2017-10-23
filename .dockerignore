@@ -1,3 +1,4 @@
+*/node_modules
 node_modules
 npm-debug.log
 Dockerfile*
@@ -9,3 +10,4 @@ README.md
 LICENSE
 .vscode
 .env
+*/.env
